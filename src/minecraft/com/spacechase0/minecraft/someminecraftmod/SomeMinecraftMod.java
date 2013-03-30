@@ -1,6 +1,10 @@
 package com.spacechase0.minecraft.someminecraftmod;
 
+import com.spacechase0.minecraft.someminecraftmod.block.*;
+import com.spacechase0.minecraft.someminecraftmod.gui.*;
 import com.spacechase0.minecraft.someminecraftmod.item.*;
+import com.spacechase0.minecraft.someminecraftmod.tileentity.*;
+import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.event.*;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.*;
@@ -9,6 +13,7 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.relauncher.Side;
+import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.common.Configuration;
 
@@ -23,7 +28,7 @@ public class SomeMinecraftMod
 	@Instance( "SC0_SomeMinecraftMod" )
 	public static SomeMinecraftMod instance;
 
-	@SidedProxy( clientSide = "com.spacechase0.minecraft.someminecraftmod.CommonProxy",
+	@SidedProxy( clientSide = "com.spacechase0.minecraft.someminecraftmod.client.ClientProxy",
 			     serverSide = "com.spacechase0.minecraft.someminecraftmod.CommonProxy" )
 	public static CommonProxy proxy;
 	
@@ -40,15 +45,30 @@ public class SomeMinecraftMod
 		decorativeTab = new DecorativeCreativeTab();
 		LanguageRegistry.instance().addStringLocalization( "itemGroup.someMinecraftMod", "Some Minecraft Mod" );
 		
-		plateItem = new PlateItem( getItemId( "plate", 0 ) );
+		// I don't remember what Grump said the recipe was
+		// Waiting until he gets home from work :P
+		
+		plateBlock = new PlateBlock( getBlockId( "plateBlock", 0 ) );
+		porcelainBlock = new SolidBlock( getBlockId( "porcelainBlock", 1 ), Material.glass, "porcelainBlock" );
+		
+		plateItem = new PlateItem( getItemId( "porcelainPlateItem", 0 ), plateBlock, "porcelain" );
 		GameRegistry.registerItem( plateItem, plateItem.getUnlocalizedName() );
-		LanguageRegistry.addName( plateItem, "Plate" );
+		LanguageRegistry.addName( plateItem, "Porcelain Plate" );
+		
+		GameRegistry.registerTileEntity( PlateTileEntity.class, "Plate" );
+		
+		proxy.init();
 	}
 	
 	@PostInit
 	public void postInit( FMLPostInitializationEvent event )
 	{
 		config.save();
+	}
+	
+	private int getBlockId( String name, int num )
+	{
+		return config.getBlock( name, DEFAULT_BLOCK_BASE + num ).getInt();
 	}
 	
 	private int getItemId( String name, int num )
@@ -58,9 +78,13 @@ public class SomeMinecraftMod
 	
 	public static CreativeTabs decorativeTab;
 	
+	public static SolidBlock porcelainBlock;
+	public static PlateBlock plateBlock;
+	
 	public static PlateItem plateItem;
 	
 	private Configuration config;
+	private final int DEFAULT_BLOCK_BASE = 2890;
 	private final int DEFAULT_ITEM_BASE = 24890;
 	
 }
