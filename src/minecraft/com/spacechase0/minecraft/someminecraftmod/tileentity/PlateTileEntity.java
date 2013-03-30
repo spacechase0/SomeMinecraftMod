@@ -4,6 +4,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.*;
+import net.minecraft.network.INetworkManager;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
@@ -85,9 +89,45 @@ public class PlateTileEntity extends TileEntity implements IInventory
 	@Override
 	public boolean isStackValidForSlot( int i, ItemStack item )
 	{
-		return ( item.getItem() instanceof ItemFood );
+		return ( ( item == null ) || ( item.getItem() instanceof ItemFood ) );
 	}
 	
+    @Override
+    public void readFromNBT( NBTTagCompound tag )
+    {
+		super.readFromNBT( tag );
+		stack = ItemStack.loadItemStackFromNBT( ( NBTTagCompound ) tag.getTag( "Food" ) );
+    }
+
+    @Override
+    public void writeToNBT( NBTTagCompound tag )
+    {
+		super.writeToNBT( tag );
+		
+		NBTTagCompound item = new NBTTagCompound();
+		if ( stack != null )
+		{
+			stack.writeToNBT( item );
+		}
+		tag.setTag( "Food", item );
+    }
+    
+    @Override
+    public Packet getDescriptionPacket()
+    {
+        NBTTagCompound nbttagcompound = new NBTTagCompound();
+        this.writeToNBT(nbttagcompound);
+        return new Packet132TileEntityData(this.xCoord, this.yCoord, this.zCoord, -1, nbttagcompound);
+    }
+    
+    @Override
+    public void onDataPacket(INetworkManager net, Packet132TileEntityData pkt)
+    {
+    	if ( worldObj.isRemote )
+    	{
+    		readFromNBT( pkt.customParam1 );
+    	}
+    }
+	
 	private ItemStack stack;
-	private World world;
 }

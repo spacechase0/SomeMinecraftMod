@@ -10,7 +10,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemReed;
 import net.minecraft.util.Icon;
 
-public class PlateItem extends ItemReed // I have no idea. Plus it's SUGARCANE!
+public class PlateItem extends ItemReed // I have no idea. Plus, it's called SUGARCANE!
 {
 	public PlateItem( int id, Block block, String theType )
 	{
