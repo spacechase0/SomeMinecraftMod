@@ -92,7 +92,7 @@ public class DecorativeStuff
 	
 	private void registerItems()
 	{
-		plateItem = new PlateItem( getItemId( "porcelainPlateItem", 0 ), plateBlock, "porcelain" );
+		plateItem = ( PlateItem )( new PlateItem( getItemId( "porcelainPlateItem", 0 ), plateBlock, "porcelain" ).setMaxStackSize( 16 ) );
 		GameRegistry.registerItem( plateItem, plateItem.getUnlocalizedName() );
 		LanguageRegistry.addName( plateItem, "Porcelain Plate" );
 		
@@ -104,7 +104,7 @@ public class DecorativeStuff
 		GameRegistry.registerItem( moldBase, moldBase.getUnlocalizedName() );
 		LanguageRegistry.addName( moldBase, "Mold Base" );
 		
-		plateMold = new MoldItem( getItemId( "plateMold", 3 ), "plate" );
+		plateMold = new MoldItem( getItemId( "plateMold", 3 ), "plate", plateItem.itemID );
 		GameRegistry.registerItem( plateMold, plateMold.getUnlocalizedName() );
 		LanguageRegistry.addName( plateMold, "Plate Mold" );
 		
@@ -112,9 +112,17 @@ public class DecorativeStuff
 		GameRegistry.registerItem( stencilBase, stencilBase.getUnlocalizedName() );
 		LanguageRegistry.addName( stencilBase, "Stencil Base" );
 		
-		circleStencil = new StencilItem( getItemId( "circleStencil", 3 ), "circle" );
-		GameRegistry.registerItem( circleStencil, circleStencil.getUnlocalizedName() );
-		LanguageRegistry.addName( circleStencil, "Circle Stencil" );
+		straightStencil = new StencilItem( getItemId( "straightStencil", 3 ), "straight", StencilItem.STRAIGHT_STENCIL );
+		GameRegistry.registerItem( straightStencil, straightStencil.getUnlocalizedName() );
+		LanguageRegistry.addName( straightStencil, "Straight Stencil" );
+		
+		abstractStencil = new StencilItem( getItemId( "abstractStencil", 4 ), "abstract", StencilItem.ABSTRACT_STENCIL );
+		GameRegistry.registerItem( abstractStencil, abstractStencil.getUnlocalizedName() );
+		LanguageRegistry.addName( abstractStencil, "Abstract Stencil" );
+		
+		bubbleStencil = new StencilItem( getItemId( "bubbleStencil", 5 ), "bubble", StencilItem.BUBBLE_STENCIL );
+		GameRegistry.registerItem( bubbleStencil, bubbleStencil.getUnlocalizedName() );
+		LanguageRegistry.addName( bubbleStencil, "Bubble Stencil" );
 	}
 	
 	private void registerRecipes()
@@ -148,18 +156,36 @@ public class DecorativeStuff
 				                      new Object[]
 				                      {
 										"#-#",
-										"- -",
+										"-#-",
 										"#-#",
 										'#', Block.planks,
 										'-', Item.stick,
 				                      } );
 		
-		GameRegistry.addShapedRecipe( new ItemStack( circleStencil, 1 ),
+		GameRegistry.addShapedRecipe( new ItemStack( straightStencil, 1 ),
 				                      new Object[]
 				                      {
 										"###",
 										"# #",
 										"###",
+										'#', stencilBase,
+				                      } );
+		
+		GameRegistry.addShapedRecipe( new ItemStack( abstractStencil, 1 ),
+				                      new Object[]
+				                      {
+										"# #",
+										"   ",
+										"# #",
+										'#', stencilBase,
+				                      } );
+		
+		GameRegistry.addShapedRecipe( new ItemStack( bubbleStencil, 1 ),
+				                      new Object[]
+				                      {
+										" # ",
+										"# #",
+										" # ",
 										'#', stencilBase,
 				                      } );
 		// Temporary recipe
@@ -214,7 +240,9 @@ public class DecorativeStuff
 	public static SimpleItem moldBase;
 	public static MoldItem plateMold;
 	public static SimpleItem stencilBase;
-	public static StencilItem circleStencil;
+	public static StencilItem straightStencil;
+	public static StencilItem abstractStencil;
+	public static StencilItem bubbleStencil;
 	
 	private Configuration config;
 	private final int DEFAULT_BLOCK_BASE = 2890;

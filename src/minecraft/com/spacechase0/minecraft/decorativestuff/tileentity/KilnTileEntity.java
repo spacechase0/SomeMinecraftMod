@@ -7,6 +7,7 @@ import com.spacechase0.minecraft.decorativestuff.item.MoldItem;
 import com.spacechase0.minecraft.decorativestuff.item.StencilItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -160,6 +161,23 @@ public class KilnTileEntity extends TileEntity implements IInventory {
 		return false;
 	}
 	
+	@Override
+	public void updateEntity()
+	{
+		updateProgressNeeded();
+		
+		if ( burnTimeLeft > 0 )
+		{
+			--burnTimeLeft;
+			if ( progressNeeded > 0 )
+			{
+				++progressAmount;
+			}
+		}
+		
+		if ( progressNeeded >= 0 ) stacks[ OUTPUT_SLOT ] = getProjectedOutput();
+	}
+	
     @Override
     public void readFromNBT( NBTTagCompound tag )
     {
@@ -197,6 +215,7 @@ public class KilnTileEntity extends TileEntity implements IInventory {
             }
         }
         tag.setTag( "Items", inv );
+        
         tag.setShort( "BurnTimeLeft", ( short ) burnTimeLeft );
         tag.setShort( "ProgressAmount", ( short ) progressAmount );
     }
@@ -218,9 +237,107 @@ public class KilnTileEntity extends TileEntity implements IInventory {
     	}
     }
     
+    private void updateProgressNeeded()
+    {
+    	if ( stacks[ PORCELAIN_SLOT ] != null && stacks[ MOLD_SLOT ] != null )
+		{
+			progressNeeded = 360;
+			if ( stacks[ STENCIL_SLOT ] != null & stacks[ OTHER_DYE_SLOT ] != null )
+			{
+				progressNeeded += 240;
+			}
+			
+			if ( stacks[ OUTPUT_SLOT ] != null )
+			{
+				ItemStack output = stacks[ OUTPUT_SLOT ];
+				ItemStack result = getProjectedOutput();
+				
+				if ( output.itemID != result.itemID || output.getItemDamage() != result.getItemDamage() || output.getMaxStackSize() == output.stackSize )
+				{
+					progressNeeded = -1;
+				}
+			}
+		}
+		else
+		{
+			progressNeeded = -1;
+		}
+    }
+    
+    private ItemStack getProjectedOutput()
+    {
+    	int id = ( ( MoldItem )( stacks[ MOLD_SLOT ].getItem() ) ).getOutputId();
+    	int plateColor = getDyeColor( stacks[ MAIN_DYE_SLOT ] );
+    	int data = ( plateColor >> 0 ) & 0x00F;
+    	
+    	if ( stacks[ STENCIL_SLOT ] != null && stacks[ OTHER_DYE_SLOT ] != null )
+    	{
+    		int stencilType = ( ( StencilItem )( stacks[ STENCIL_SLOT ].getItem() ) ).getStencilType();
+        	int stencilColor = getDyeColor( stacks[ OTHER_DYE_SLOT ] );
+        	
+        	data |= ( stencilType >> 4 ) & 0x0F0;
+        	data |= ( stencilColor >> 8 ) & 0xF00;
+    	}
+    	
+    	ItemStack result = new ItemStack( id, 1, data );
+    	return result;
+    }
+    
+    private int getDyeColor( ItemStack stack )
+    {
+        String[] dyes =
+        {
+            "dyeBlack",
+            "dyeRed",
+            "dyeGreen",
+            "dyeBrown",
+            "dyeBlue",
+            "dyePurple",
+            "dyeCyan",
+            "dyeLightGray",
+            "dyeGray",
+            "dyePink",
+            "dyeLime",
+            "dyeYellow",
+            "dyeLightBlue",
+            "dyeMagenta",
+            "dyeOrange",
+            "dyeWhite"
+        };
+        
+        for ( String dye : dyes )
+        {
+        	List< ItemStack > matches = OreDictionary.getOres( dye );
+        	
+        	boolean thisColor = false;
+        	ItemStack vanillaDye = null;
+        	for ( ItemStack dyeItem : matches )
+        	{
+        		if ( dyeItem.itemID == Item.dyePowder.itemID )
+        		{
+        			vanillaDye = dyeItem;
+        		}
+        		
+        		if ( stack.itemID == dyeItem.itemID && stack.getItemDamage() == dyeItem.getItemDamage() )
+        		{
+        			thisColor = true;
+        		}
+        	}
+        	
+        	if ( vanillaDye != null )
+        	{
+        		return vanillaDye.getItemDamage();
+        	}
+        }
+        
+        // Why would this happen? I have no idea.
+        return 15; // White
+    }
+    
     private ItemStack stacks[] = new ItemStack[ 7 ];
     private int burnTimeLeft;
     private int progressAmount;
+    private int progressNeeded;
     
     public static final int FUEL_SLOT = 0;
     public static final int MAIN_DYE_SLOT = 1;
