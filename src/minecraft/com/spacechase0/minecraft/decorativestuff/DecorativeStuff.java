@@ -14,8 +14,12 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.relauncher.Side;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.Configuration;
 
 @Mod( modid = "SC0_DecorativeStuff", name = "Decorative Stuff", version = "0.1" )
@@ -49,6 +53,7 @@ public class DecorativeStuff
 		registerCreativeTabs();
 		registerBlocks();
 		registerItems();
+		registerRecipes();
 		registerTileEntities();
 		registerGui();
 		
@@ -64,13 +69,25 @@ public class DecorativeStuff
 	private void registerCreativeTabs()
 	{
 		decorativeTab = new DecorativeCreativeTab();
-		LanguageRegistry.instance().addStringLocalization( "itemGroup.someMinecraftMod", "Some Minecraft Mod" );
+		LanguageRegistry.instance().addStringLocalization( "itemGroup.decorativeStuff", "decorativeStuff" );
 	}
 	
 	private void registerBlocks()
 	{
 		plateBlock = new PlateBlock( getBlockId( "plateBlock", 0 ) );
+		GameRegistry.registerBlock( plateBlock, "plateBlock" );
+		LanguageRegistry.addName( plateBlock, "Plate (Block)" );
+		
 		porcelainBlock = new SolidBlock( getBlockId( "porcelainBlock", 1 ), Material.glass, "porcelainBlock" );
+		GameRegistry.registerBlock( porcelainBlock, "porcelainBlock" );
+		LanguageRegistry.addName( porcelainBlock, "Porcelain Block" );
+		
+		idleKiln = new KilnBlock( getBlockId( "idleKiln", 2 ), false );
+		activeKiln = new KilnBlock( getBlockId( "activeKiln", 3 ), true );
+		GameRegistry.registerBlock( idleKiln, "idleKiln" );
+		GameRegistry.registerBlock( activeKiln, "activeKiln" );
+		LanguageRegistry.addName( idleKiln, "Kiln" );
+		//LanguageRegistry.addName( activeKiln, "Kiln (Active)" );
 	}
 	
 	private void registerItems()
@@ -78,11 +95,96 @@ public class DecorativeStuff
 		plateItem = new PlateItem( getItemId( "porcelainPlateItem", 0 ), plateBlock, "porcelain" );
 		GameRegistry.registerItem( plateItem, plateItem.getUnlocalizedName() );
 		LanguageRegistry.addName( plateItem, "Porcelain Plate" );
+		
+		rawPorcelainChunk = new SimpleItem( getItemId( "rawPorcelainChunk", 1 ), "rawPorcelainChunk" );
+		GameRegistry.registerItem( rawPorcelainChunk, rawPorcelainChunk.getUnlocalizedName() );
+		LanguageRegistry.addName( rawPorcelainChunk, "Raw Porcelain Chunk" );
+		
+		moldBase = ( SimpleItem ) ( new SimpleItem( getItemId( "moldBase", 2 ), "moldBase" ) ).setMaxStackSize( 16 );
+		GameRegistry.registerItem( moldBase, moldBase.getUnlocalizedName() );
+		LanguageRegistry.addName( moldBase, "Mold Base" );
+		
+		plateMold = new MoldItem( getItemId( "plateMold", 3 ), "plate" );
+		GameRegistry.registerItem( plateMold, plateMold.getUnlocalizedName() );
+		LanguageRegistry.addName( plateMold, "Plate Mold" );
+		
+		stencilBase = ( SimpleItem ) ( new SimpleItem( getItemId( "stencilBase", 2 ), "stencilBase" ) ).setMaxStackSize( 16 );
+		GameRegistry.registerItem( stencilBase, stencilBase.getUnlocalizedName() );
+		LanguageRegistry.addName( stencilBase, "Stencil Base" );
+		
+		circleStencil = new StencilItem( getItemId( "circleStencil", 3 ), "circle" );
+		GameRegistry.registerItem( circleStencil, circleStencil.getUnlocalizedName() );
+		LanguageRegistry.addName( circleStencil, "Circle Stencil" );
+	}
+	
+	private void registerRecipes()
+	{
+		GameRegistry.addShapelessRecipe( new ItemStack( rawPorcelainChunk, 1 ),
+				                         new Object[]
+				                         {
+											Item.field_94583_ca, Item.field_94583_ca, Item.field_94583_ca, // Nether quartz
+											Block.glass, Block.glass, Block.glass,
+											Item.clay, Item.clay, Item.clay,
+				                         } );
+		
+		GameRegistry.addShapedRecipe( new ItemStack( moldBase, 2 ),
+				                      new Object[]
+				                      {
+										"#-#",
+										"- -",
+										"#-#",
+										'#', Item.ingotIron,
+										'-', Block.planks,
+				                      } );
+		
+		GameRegistry.addShapedRecipe( new ItemStack( plateMold, 1 ),
+				                      new Object[]
+				                      {
+										"UUU",
+										'U', moldBase,
+				                      } );
+		
+		GameRegistry.addShapedRecipe( new ItemStack( stencilBase, 2 ),
+				                      new Object[]
+				                      {
+										"#-#",
+										"- -",
+										"#-#",
+										'#', Block.planks,
+										'-', Item.stick,
+				                      } );
+		
+		GameRegistry.addShapedRecipe( new ItemStack( circleStencil, 1 ),
+				                      new Object[]
+				                      {
+										"###",
+										"# #",
+										"###",
+										'#', stencilBase,
+				                      } );
+		// Temporary recipe
+		GameRegistry.addShapelessRecipe( new ItemStack( plateItem, 1 ),
+				                         new Object[]
+				                         {
+											plateMold, rawPorcelainChunk,
+				                         } );
+		
+		GameRegistry.addShapedRecipe( new ItemStack( idleKiln, 1 ),
+				                      new Object[]
+				                      {
+										"#^#",
+										"#O#",
+										"###",
+										'#', Block.brick,
+										'^', Item.flintAndSteel,
+										'O', Block.chest,
+				                      } );
 	}
 	
 	private void registerTileEntities()
 	{
 		GameRegistry.registerTileEntity( PlateTileEntity.class, "Plate" );
+		GameRegistry.registerTileEntity( KilnTileEntity.class, "Kiln" );
 	}
 	
 	private void registerGui()
@@ -104,12 +206,20 @@ public class DecorativeStuff
 	
 	public static SolidBlock porcelainBlock;
 	public static PlateBlock plateBlock;
+	public static KilnBlock idleKiln;
+	public static KilnBlock activeKiln;
 	
 	public static PlateItem plateItem;
+	public static SimpleItem rawPorcelainChunk;
+	public static SimpleItem moldBase;
+	public static MoldItem plateMold;
+	public static SimpleItem stencilBase;
+	public static StencilItem circleStencil;
 	
 	private Configuration config;
 	private final int DEFAULT_BLOCK_BASE = 2890;
 	private final int DEFAULT_ITEM_BASE = 24890;
 	
 	public static final int PLATE_GUI_ID = 0;
+	public static final int KILN_GUI_ID = 1;
 }

@@ -7,7 +7,7 @@ public class DecorativeCreativeTab extends CreativeTabs
 {
 	public DecorativeCreativeTab()
 	{
-		super( "someMinecraftMod" );
+		super( "decorativeStuff" );
 	}
 	
 	public ItemStack getIconItemStack()

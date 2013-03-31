@@ -6,6 +6,8 @@ import com.spacechase0.minecraft.decorativestuff.tileentity.PlateTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.world.World;
 
 public class SolidBlock extends Block

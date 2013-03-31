@@ -5,6 +5,7 @@ import java.util.Random;
 import com.spacechase0.minecraft.decorativestuff.DecorativeStuff;
 import com.spacechase0.minecraft.decorativestuff.tileentity.PlateTileEntity;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -47,7 +48,7 @@ public class PlateBlock extends BlockContainer
     public void breakBlock(World world, int x, int y, int z, int par5, int par6)
     {
         PlateTileEntity plate = ( PlateTileEntity ) world.getBlockTileEntity(x, y, z);
-
+        
         if (plate != null)
         {
         	ItemStack stack = plate.getStackInSlot( 0 );
@@ -85,7 +86,7 @@ public class PlateBlock extends BlockContainer
     public void registerIcons( IconRegister register )
     {
     }
-	
+
 	@Override
     public int idDropped(int par1, Random par2Random, int par3)
     {
