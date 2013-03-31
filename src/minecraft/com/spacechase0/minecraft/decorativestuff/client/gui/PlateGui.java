@@ -1,7 +1,8 @@
-package com.spacechase0.minecraft.someminecraftmod.client.gui;
+package com.spacechase0.minecraft.decorativestuff.client.gui;
 
-import com.spacechase0.minecraft.someminecraftmod.inventory.PlateContainer;
-import com.spacechase0.minecraft.someminecraftmod.tileentity.PlateTileEntity;
+import com.spacechase0.minecraft.decorativestuff.inventory.PlateContainer;
+import com.spacechase0.minecraft.decorativestuff.tileentity.PlateTileEntity;
+
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.util.StatCollector;
@@ -25,7 +26,7 @@ public class PlateGui extends GuiContainer
 	protected void drawGuiContainerBackgroundLayer( float f, int i, int j )
 	{
         GL11.glColor4f( 1.0F, 1.0F, 1.0F, 1.0F );
-        mc.renderEngine.bindTexture("/mods/someMinecraftMod/textures/gui/food.png" );
+        mc.renderEngine.bindTexture("/mods/decorativeStuff/textures/gui/food.png" );
         int x = ( width - xSize ) / 2;
         int y = ( height - ySize ) / 2;
         this.drawTexturedModalRect( x, y, 0, 0, xSize, ySize );

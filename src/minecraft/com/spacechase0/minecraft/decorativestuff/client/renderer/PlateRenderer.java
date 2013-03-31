@@ -1,10 +1,11 @@
-package com.spacechase0.minecraft.someminecraftmod.client.renderer;
+package com.spacechase0.minecraft.decorativestuff.client.renderer;
 
 import org.lwjgl.opengl.GL11;
 
-import com.spacechase0.minecraft.someminecraftmod.SomeMinecraftMod;
-import com.spacechase0.minecraft.someminecraftmod.client.model.*;
-import com.spacechase0.minecraft.someminecraftmod.tileentity.PlateTileEntity;
+import com.spacechase0.minecraft.decorativestuff.DecorativeStuff;
+import com.spacechase0.minecraft.decorativestuff.client.model.*;
+import com.spacechase0.minecraft.decorativestuff.tileentity.PlateTileEntity;
+
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
@@ -26,7 +27,7 @@ public class PlateRenderer extends TileEntitySpecialRenderer
         GL11.glTranslatef( ( float ) x, ( float ) y, ( float ) z );
         GL11.glColor4f( 1.0F, 1.0F, 1.0F, 1.0F );
         
-        bindTextureByName( "/mods/someMinecraftMod/textures/blocks/porcelainBlock.png" );
+        bindTextureByName( "/mods/decorativeStuff/textures/blocks/porcelainBlock.png" );
         plateModel.renderAll();
         
         ItemStack stack = plate.getStackInSlot( 0 );

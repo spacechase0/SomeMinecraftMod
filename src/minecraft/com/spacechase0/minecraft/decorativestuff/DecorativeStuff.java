@@ -1,8 +1,9 @@
-package com.spacechase0.minecraft.someminecraftmod;
+package com.spacechase0.minecraft.decorativestuff;
 
-import com.spacechase0.minecraft.someminecraftmod.block.*;
-import com.spacechase0.minecraft.someminecraftmod.item.*;
-import com.spacechase0.minecraft.someminecraftmod.tileentity.*;
+import com.spacechase0.minecraft.decorativestuff.block.*;
+import com.spacechase0.minecraft.decorativestuff.item.*;
+import com.spacechase0.minecraft.decorativestuff.tileentity.*;
+
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.event.*;
 import cpw.mods.fml.common.Mod;
@@ -17,19 +18,19 @@ import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.common.Configuration;
 
-@Mod( modid = "SC0_SomeMinecraftMod", name = "SomeMinecraftMod", version = "0.1" )
+@Mod( modid = "SC0_DecorativeStuff", name = "Decorative Stuff", version = "0.1" )
 @NetworkMod( clientSideRequired = true, serverSideRequired = false )
-public class SomeMinecraftMod
+public class DecorativeStuff
 { 
-	public SomeMinecraftMod()
+	public DecorativeStuff()
 	{
 	}
 	
-	@Instance( "SC0_SomeMinecraftMod" )
-	public static SomeMinecraftMod instance;
+	@Instance( "SC0_DecorativeStuff" )
+	public static DecorativeStuff instance;
 
-	@SidedProxy( clientSide = "com.spacechase0.minecraft.someminecraftmod.client.ClientProxy",
-			     serverSide = "com.spacechase0.minecraft.someminecraftmod.CommonProxy" )
+	@SidedProxy( clientSide = "com.spacechase0.minecraft.decorativestuff.client.ClientProxy",
+			     serverSide = "com.spacechase0.minecraft.decorativestuff.CommonProxy" )
 	public static CommonProxy proxy;
 	
 	@PreInit

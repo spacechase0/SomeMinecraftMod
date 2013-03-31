@@ -1,4 +1,4 @@
-package com.spacechase0.minecraft.someminecraftmod.client.model;
+package com.spacechase0.minecraft.decorativestuff.client.model;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.client.model.ModelRenderer;
@@ -19,7 +19,7 @@ public class AppleModel extends FoodModel
 	@Override
 	public String getTextureName()
 	{
-		return "/mods/someMinecraftMod/textures/models/" + ( isGolden ? "golden" : "red" ) + "Apple.png";
+		return "/mods/decorativeStuff/textures/models/" + ( isGolden ? "golden" : "red" ) + "Apple.png";
 	}
 	
 	@Override

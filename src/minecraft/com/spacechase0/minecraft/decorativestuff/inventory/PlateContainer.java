@@ -1,6 +1,7 @@
-package com.spacechase0.minecraft.someminecraftmod.inventory;
+package com.spacechase0.minecraft.decorativestuff.inventory;
 
-import com.spacechase0.minecraft.someminecraftmod.tileentity.PlateTileEntity;
+import com.spacechase0.minecraft.decorativestuff.tileentity.PlateTileEntity;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.*;

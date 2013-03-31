@@ -1,4 +1,4 @@
-package com.spacechase0.minecraft.someminecraftmod.client.model;
+package com.spacechase0.minecraft.decorativestuff.client.model;
 
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.item.ItemStack;
@@ -14,7 +14,7 @@ public class BreadModel extends FoodModel
 	@Override
 	public String getTextureName()
 	{
-		return "/mods/someMinecraftMod/textures/models/bread.png";
+		return "/mods/decorativeStuff/textures/models/bread.png";
 	}
 	
 	@Override

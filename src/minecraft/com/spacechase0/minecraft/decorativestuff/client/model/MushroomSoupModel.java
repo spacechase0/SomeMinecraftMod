@@ -1,4 +1,4 @@
-package com.spacechase0.minecraft.someminecraftmod.client.model;
+package com.spacechase0.minecraft.decorativestuff.client.model;
 
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.item.ItemStack;
@@ -29,7 +29,7 @@ public class MushroomSoupModel extends FoodModel
 	@Override
 	public String getTextureName()
 	{
-		return "/mods/someMinecraftMod/textures/models/mushroomSoup.png";
+		return "/mods/decorativeStuff/textures/models/mushroomSoup.png";
 	}
 	
 	@Override

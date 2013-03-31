@@ -1,4 +1,4 @@
-package com.spacechase0.minecraft.someminecraftmod;
+package com.spacechase0.minecraft.decorativestuff;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
@@ -12,6 +12,6 @@ public class DecorativeCreativeTab extends CreativeTabs
 	
 	public ItemStack getIconItemStack()
 	{
-		return new ItemStack( SomeMinecraftMod.plateItem, 1 );
+		return new ItemStack( DecorativeStuff.plateItem, 1 );
 	}
 }

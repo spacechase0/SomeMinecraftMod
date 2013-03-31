@@ -1,4 +1,4 @@
-package com.spacechase0.minecraft.someminecraftmod.client.model;
+package com.spacechase0.minecraft.decorativestuff.client.model;
 
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.item.ItemStack;
@@ -17,7 +17,7 @@ public class PumpkinPieModel extends FoodModel
 	@Override
 	public String getTextureName()
 	{
-		return "/mods/someMinecraftMod/textures/models/pumpkinPie.png";
+		return "/mods/decorativeStuff/textures/models/pumpkinPie.png";
 	}
 	
 	@Override

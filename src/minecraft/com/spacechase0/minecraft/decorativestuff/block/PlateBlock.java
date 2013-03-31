@@ -1,9 +1,10 @@
-package com.spacechase0.minecraft.someminecraftmod.block;
+package com.spacechase0.minecraft.decorativestuff.block;
 
 import java.util.Random;
 
-import com.spacechase0.minecraft.someminecraftmod.SomeMinecraftMod;
-import com.spacechase0.minecraft.someminecraftmod.tileentity.PlateTileEntity;
+import com.spacechase0.minecraft.decorativestuff.DecorativeStuff;
+import com.spacechase0.minecraft.decorativestuff.tileentity.PlateTileEntity;
+
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -36,7 +37,7 @@ public class PlateBlock extends BlockContainer
         else
         {
             PlateTileEntity plate = ( PlateTileEntity ) world.getBlockTileEntity( x, y, z );
-            player.openGui( SomeMinecraftMod.instance, SomeMinecraftMod.PLATE_GUI_ID, world, x, y, z );
+            player.openGui( DecorativeStuff.instance, DecorativeStuff.PLATE_GUI_ID, world, x, y, z );
 
             return true;
         }
@@ -88,7 +89,7 @@ public class PlateBlock extends BlockContainer
 	@Override
     public int idDropped(int par1, Random par2Random, int par3)
     {
-        return SomeMinecraftMod.plateItem.itemID;
+        return DecorativeStuff.plateItem.itemID;
     }
 	
 	@Override

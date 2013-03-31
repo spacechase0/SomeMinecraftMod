@@ -1,4 +1,4 @@
-package com.spacechase0.minecraft.someminecraftmod.tileentity;
+package com.spacechase0.minecraft.decorativestuff.tileentity;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;

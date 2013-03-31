@@ -1,6 +1,7 @@
-package com.spacechase0.minecraft.someminecraftmod.item;
+package com.spacechase0.minecraft.decorativestuff.item;
 
-import com.spacechase0.minecraft.someminecraftmod.SomeMinecraftMod;
+import com.spacechase0.minecraft.decorativestuff.DecorativeStuff;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import java.lang.reflect.*;
@@ -18,14 +19,14 @@ public class PlateItem extends ItemReed // I have no idea. Plus, it's called SUG
 		
 		type = theType;
 		setUnlocalizedName( type + "PlateItem" );
-		setCreativeTab( SomeMinecraftMod.decorativeTab );
+		setCreativeTab( DecorativeStuff.decorativeTab );
 	}
 
 	@Override
     @SideOnly(Side.CLIENT)
     public void updateIcons( IconRegister register )
     {
-        iconIndex = register.registerIcon( "someMinecraftMod:" + type + "plate" );
+        iconIndex = register.registerIcon( "decorativeStuff:" + type + "plate" );
     }
 	
 	@Override

@@ -1,4 +1,4 @@
-package com.spacechase0.minecraft.someminecraftmod;
+package com.spacechase0.minecraft.decorativestuff;
 
 public class CommonProxy
 {

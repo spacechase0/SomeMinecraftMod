@@ -1,4 +1,4 @@
-package com.spacechase0.minecraft.someminecraftmod.inventory;
+package com.spacechase0.minecraft.decorativestuff.inventory;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;

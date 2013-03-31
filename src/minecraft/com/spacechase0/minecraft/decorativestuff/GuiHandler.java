@@ -1,8 +1,9 @@
-package com.spacechase0.minecraft.someminecraftmod;
+package com.spacechase0.minecraft.decorativestuff;
 
-import com.spacechase0.minecraft.someminecraftmod.client.gui.*;
-import com.spacechase0.minecraft.someminecraftmod.inventory.*;
-import com.spacechase0.minecraft.someminecraftmod.tileentity.*;
+import com.spacechase0.minecraft.decorativestuff.client.gui.*;
+import com.spacechase0.minecraft.decorativestuff.inventory.*;
+import com.spacechase0.minecraft.decorativestuff.tileentity.*;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;

@@ -1,4 +1,4 @@
-package com.spacechase0.minecraft.someminecraftmod.client.model;
+package com.spacechase0.minecraft.decorativestuff.client.model;
 
 import static org.lwjgl.opengl.GL11.*;
 
