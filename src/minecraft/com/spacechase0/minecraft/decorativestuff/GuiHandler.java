@@ -19,6 +19,10 @@ public class GuiHandler implements IGuiHandler
 		{
 			return new PlateContainer( player.inventory, ( PlateTileEntity ) entity );
 		}
+		else if ( entity instanceof KilnTileEntity )
+		{
+			return new KilnContainer( player.inventory, ( KilnTileEntity ) entity );
+		}
 		
 		return null;
 	}
@@ -30,6 +34,10 @@ public class GuiHandler implements IGuiHandler
 		if ( entity instanceof PlateTileEntity )
 		{
 			return new PlateGui( player.inventory, ( PlateTileEntity ) entity );
+		}
+		else if ( entity instanceof KilnTileEntity )
+		{
+			return new KilnGui( player.inventory, ( KilnTileEntity ) entity );
 		}
 		
 		return null;

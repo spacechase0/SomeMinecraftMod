@@ -13,7 +13,7 @@ public class PlateContainer extends Container
 	{
 		plate = thePlate;
 		
-		addSlotToContainer( new FoodSlot( plate, 0, 80, 35 ) );
+		addSlotToContainer( new ValidatingSlot( plate, 0, 80, 35 ) );
 		bindPlayerInventory( player );
 	}
 	
@@ -36,12 +36,12 @@ public class PlateContainer extends Container
     		
     		if ( slot == 0 )
     		{
-    			if ( !mergeItemStack( stackInSlot, 2, 37, true ) )
+    			if ( !mergeItemStack( stackInSlot, 1, 1 + 36, true ) )
     			{
     				return null;
     			}
     		}
-    		else if ( !mergeItemStack( stackInSlot, 0, 0, false ) )
+    		else if ( !mergeItemStack( stackInSlot, 0, 1, false ) )
     		{
     			return null;
     		}
@@ -72,13 +72,13 @@ public class PlateContainer extends Container
 		{
 			for (int ix = 0; ix < 9; ix++)
 			{
-				addSlotToContainer( new Slot( player, ix + iy * 9 + 9, 8 + ix * 18, 84 + iy * 18 ) );
+				addSlotToContainer( new Slot( player, ix + iy * 9 + 9 + 1, 8 + ix * 18, 84 + iy * 18 ) );
 			}
 		}
 		
 		for (int ix = 0; ix < 9; ix++)
 		{
-			addSlotToContainer( new Slot( player, ix, 8 + ix * 18, 142 ) );
+			addSlotToContainer( new Slot( player, ix + 1, 8 + ix * 18, 142 ) );
 		}
 	}
 	

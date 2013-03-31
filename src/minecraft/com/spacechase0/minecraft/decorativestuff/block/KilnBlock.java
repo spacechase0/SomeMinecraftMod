@@ -51,8 +51,13 @@ public class KilnBlock extends BlockFurnace
     }
 	
 	@Override
+    public void breakBlock(World par1World, int par2, int par3, int par4, int par5, int par6)
+	{
+	}
+	
+	@Override
 	public TileEntity createNewTileEntity( World world )
 	{
-		return new PlateTileEntity();
+		return new KilnTileEntity();
 	}
 }

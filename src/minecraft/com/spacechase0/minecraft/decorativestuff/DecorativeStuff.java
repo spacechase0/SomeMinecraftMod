@@ -176,8 +176,8 @@ public class DecorativeStuff
 										"#O#",
 										"###",
 										'#', Block.brick,
-										'^', Item.flintAndSteel,
-										'O', Block.chest,
+										'^', Block.hopperBlock,
+										'O', Block.furnaceIdle,
 				                      } );
 	}
 	

@@ -95,6 +95,11 @@ public class KilnTileEntity extends TileEntity implements IInventory {
 	@Override
 	public boolean isStackValidForSlot( int slot, ItemStack item )
 	{
+		if ( item == null )
+		{
+			return true;
+		}
+		
 		if ( slot == FUEL_SLOT )
 		{
 			return ( TileEntityFurnace.getItemBurnTime( item ) > 0 );
@@ -171,6 +176,8 @@ public class KilnTileEntity extends TileEntity implements IInventory {
                 stacks[ slot ] = ItemStack.loadItemStackFromNBT( compound );
             }
         }
+        burnTimeLeft = ( int ) tag.getShort( "BurnTimeLeft" );
+        progressAmount = ( int ) tag.getShort( "ProgressAmount" );
     }
 
     @Override
@@ -190,6 +197,8 @@ public class KilnTileEntity extends TileEntity implements IInventory {
             }
         }
         tag.setTag( "Items", inv );
+        tag.setShort( "BurnTimeLeft", ( short ) burnTimeLeft );
+        tag.setShort( "ProgressAmount", ( short ) progressAmount );
     }
     
     @Override
@@ -210,6 +219,9 @@ public class KilnTileEntity extends TileEntity implements IInventory {
     }
     
     private ItemStack stacks[] = new ItemStack[ 7 ];
+    private int burnTimeLeft;
+    private int progressAmount;
+    
     public static final int FUEL_SLOT = 0;
     public static final int MAIN_DYE_SLOT = 1;
     public static final int PORCELAIN_SLOT = 2;
