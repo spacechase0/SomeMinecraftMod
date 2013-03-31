@@ -66,8 +66,9 @@ public class PlateBlock extends BlockContainer
                 entity.motionZ = (double)((float)rand.nextGaussian() * f3);
                 
                 world.spawnEntityInWorld(entity);
+                
+            	plate.decrStackSize( 0, stack.stackSize );
         	}
-        	plate.decrStackSize( 0, stack.stackSize );
         }
 
         super.breakBlock( world, x, y, z, par5, par6 );

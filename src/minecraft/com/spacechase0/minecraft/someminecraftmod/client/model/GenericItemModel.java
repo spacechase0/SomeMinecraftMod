@@ -9,8 +9,13 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 
-public class GenericItemModel extends FoodModel {
-
+public class GenericItemModel extends FoodModel
+{
+	public GenericItemModel( /*float theScale*/ )
+	{
+		scale = 1.f;// theScale;
+	}
+	
 	@Override
 	public String getTextureName()
 	{
@@ -31,13 +36,15 @@ public class GenericItemModel extends FoodModel {
         float f9 = 0.5F;
         float f10 = 0.25F;
         float f11 = 0.021875F;
-        float f12 = 0.0625F /* Mine */ * 2.25f;
+        float f12 = 0.0625F /* Mine */ * 2.25f * scale;
         glPushMatrix();
         {
         	// Wish I understood this...
             //GL11.glRotatef(180.0F, 0.0F, 1.0F, 0.0F);
         	glRotatef( 90.f, 1.f, 0.f, 0.f ); // MINE
-        	glTranslatef( ( 1.f / 16 ) * 0.5f, ( 1.f / 16 ) * 0.75f, 1.f / 16 * 0.5f ); // MINE
+        	glScalef( 0.8f, 0.8f, 0.8f );
+        	glTranslatef( ( 1.f / 16 ) * 2.5f * scale, ( 1.f / 16 ) * 2.5f * scale, 1.f / 16 * 0.5f * scale ); // MINE
+        	//glScalef( scale, scale, scale );
         	/*
             GL11.glTranslatef(-f9, -f10, -((f12 + f11) * (float)1 / 2.0F));
             GL11.glTranslatef(0.0F, 0.0F, f12 + f11);
@@ -48,4 +55,6 @@ public class GenericItemModel extends FoodModel {
         }
         glPopMatrix();
 	}
+	
+	private final float scale;
 }
