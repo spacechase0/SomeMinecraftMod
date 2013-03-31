@@ -14,7 +14,14 @@ public class FoodModelRegistry
 	
 	public static FoodModel getModelForId( int id )
 	{
-		return models.get( id );
+		FoodModel model = models.get( id );
+		if ( model == null )
+		{
+			registerModel( id, new GenericItemModel() );
+			return getModelForId( id );
+		}
+		
+		return model;
 	}
 	
 	private static Map< Integer, FoodModel > models;
@@ -24,10 +31,8 @@ public class FoodModelRegistry
 		models = new HashMap< Integer, FoodModel >();
 		
 		registerModel( Item.appleRed.itemID, new AppleModel( false ) );
-//		282 mushroom soup
-//		297 bread
-//		319 raw pork
-//		320 cooked pork
+		registerModel( Item.bowlSoup.itemID, new MushroomSoupModel() );
+		registerModel( Item.bread.itemID, new BreadModel() );
 		registerModel( Item.appleGold.itemID, new AppleModel( true ) );
 //		357 cookie
 //		360 melon

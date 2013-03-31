@@ -10,7 +10,7 @@ public class AppleModel extends FoodModel
 		isGolden = golden;
 		
 		apple = new ModelRenderer( this, 0, 0 );
-		apple.addBox( 6, 0, 6, 4 , 4, 4, 0.f );
+		apple.addBox( 6, 0, 6, 4, 4, 4, 0.f );
 		
 		stem = new ModelRenderer( this, 0, 0 );
 		stem.addBox( 7.75f, 3.75f, 7.75f, 1, 2, 1, 0.f );

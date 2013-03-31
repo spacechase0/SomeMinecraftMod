@@ -35,7 +35,10 @@ public class PlateRenderer extends TileEntitySpecialRenderer
         {
         	float incr = 1.f / 16;
             GL11.glTranslatef( 0, incr * 2, 0 );
-            bindTextureByName( food.getTextureName() );
+            if ( food.getTextureName() != null )
+            {
+            	bindTextureByName( food.getTextureName() );
+            }
         	food.renderFood( stack );
         }
         
