@@ -47,9 +47,6 @@ public class DecorativeStuff
 	@Init
 	public void init( FMLInitializationEvent event )
 	{
-		// I don't remember what Grump said the recipe was
-		// Waiting until he gets home from work :P
-		
 		registerCreativeTabs();
 		registerBlocks();
 		registerItems();
@@ -131,7 +128,7 @@ public class DecorativeStuff
 				                         new Object[]
 				                         {
 											Item.field_94583_ca, Item.field_94583_ca, Item.field_94583_ca, // Nether quartz
-											Block.glass, Block.glass, Block.glass,
+											Block.sand, Block.sand, Block.sand,
 											Item.clay, Item.clay, Item.clay,
 				                         } );
 		

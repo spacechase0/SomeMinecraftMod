@@ -1,10 +1,12 @@
 package com.spacechase0.minecraft.decorativestuff.tileentity;
 
-import java.util.List;
 
+import com.spacechase0.minecraft.decorativestuff.block.KilnBlock;
 import com.spacechase0.minecraft.decorativestuff.DecorativeStuff;
 import com.spacechase0.minecraft.decorativestuff.item.MoldItem;
 import com.spacechase0.minecraft.decorativestuff.item.StencilItem;
+import java.util.List;
+import net.minecraft.block.BlockFurnace;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
@@ -39,6 +41,10 @@ public class KilnTileEntity extends TileEntity implements IInventory {
 		ret.stackSize = Math.min( amt, stacks[ slot ].stackSize );
 		
 		stacks[ slot ].stackSize -= ret.stackSize;
+		if ( stacks[ slot ].stackSize <= 0 )
+		{
+			stacks[ slot ] = null;
+		}
 		
 		return ret;
 	}
@@ -124,7 +130,7 @@ public class KilnTileEntity extends TileEntity implements IInventory {
 	            "dyeLightBlue",
 	            "dyeMagenta",
 	            "dyeOrange",
-	            "dyeWhite"
+	            "dyeWhite",
 	        };
 	        
 	        for ( String dye : dyes )
@@ -165,17 +171,66 @@ public class KilnTileEntity extends TileEntity implements IInventory {
 	public void updateEntity()
 	{
 		updateProgressNeeded();
+		System.out.println(burnTimeLeft + "/" + burnTimeTotal + " " + progressAmount + "/" + progressNeeded);
+		if ( progressNeeded > 0 && burnTimeLeft <= 0 && stacks[ FUEL_SLOT ] != null )
+		{
+			burnTimeTotal = burnTimeLeft = TileEntityFurnace.getItemBurnTime( stacks[ FUEL_SLOT ] );
+			decrStackSize( FUEL_SLOT, 1 );
+			setBurnState( true );
+			onInventoryChanged();
+		}
 		
 		if ( burnTimeLeft > 0 )
 		{
 			--burnTimeLeft;
+			if ( burnTimeLeft <= 0 )
+			{
+				setBurnState( false );
+			}
+			
 			if ( progressNeeded > 0 )
 			{
 				++progressAmount;
 			}
 		}
+		else
+		{
+			burnTimeTotal = 0;
+		}
 		
-		if ( progressNeeded >= 0 ) stacks[ OUTPUT_SLOT ] = getProjectedOutput();
+		if ( progressNeeded > 0 && progressAmount >= progressNeeded )
+		{
+			if ( stacks[ OUTPUT_SLOT ] == null )
+			{
+				stacks[ OUTPUT_SLOT ] = getProjectedOutput();
+			}
+			else
+			{
+				++stacks[ OUTPUT_SLOT ].stackSize;
+			}
+			decrStackSize( MAIN_DYE_SLOT, 1 );
+			decrStackSize( PORCELAIN_SLOT, 1 );
+			decrStackSize( OTHER_DYE_SLOT, 1 );
+			
+			stacks[ MOLD_SLOT ].setItemDamage( stacks[ MOLD_SLOT ].getItemDamage() + 1 );
+			if ( stacks[ MOLD_SLOT ].getItemDamage() > stacks[ MOLD_SLOT ].getItem().getMaxDamage() )
+			{
+				decrStackSize( MOLD_SLOT, 1 );
+			}
+			
+			if ( stacks[ STENCIL_SLOT ] != null )
+			{
+				stacks[ STENCIL_SLOT ].setItemDamage( stacks[ STENCIL_SLOT ].getItemDamage() + 1 );
+				if ( stacks[ STENCIL_SLOT ].getItemDamage() > stacks[ STENCIL_SLOT ].getItem().getMaxDamage() )
+				{
+					decrStackSize( STENCIL_SLOT, 1 );
+				}
+			}
+			
+			progressAmount = 0;
+			
+			onInventoryChanged();
+		}
 	}
 	
     @Override
@@ -194,6 +249,7 @@ public class KilnTileEntity extends TileEntity implements IInventory {
                 stacks[ slot ] = ItemStack.loadItemStackFromNBT( compound );
             }
         }
+        burnTimeTotal = ( int ) tag.getShort( "BurnTimeTotal" );
         burnTimeLeft = ( int ) tag.getShort( "BurnTimeLeft" );
         progressAmount = ( int ) tag.getShort( "ProgressAmount" );
     }
@@ -216,6 +272,7 @@ public class KilnTileEntity extends TileEntity implements IInventory {
         }
         tag.setTag( "Items", inv );
         
+        tag.setShort( "BurnTimeTotal", ( short ) burnTimeTotal );
         tag.setShort( "BurnTimeLeft", ( short ) burnTimeLeft );
         tag.setShort( "ProgressAmount", ( short ) progressAmount );
     }
@@ -237,14 +294,34 @@ public class KilnTileEntity extends TileEntity implements IInventory {
     	}
     }
     
+    public int getBurnTimeTotal()
+    {
+    	return burnTimeTotal;
+    }
+    
+    public int getBurnTimeLeft()
+    {
+    	return burnTimeLeft;
+    }
+    
+    public int getProgressNeeded()
+    {
+    	return progressNeeded;
+    }
+    
+    public int getProgressAmount()
+    {
+    	return progressAmount;
+    }
+    
     private void updateProgressNeeded()
     {
     	if ( stacks[ PORCELAIN_SLOT ] != null && stacks[ MOLD_SLOT ] != null )
 		{
-			progressNeeded = 360;
+			progressNeeded = BASE_BURN_TIME;
 			if ( stacks[ STENCIL_SLOT ] != null & stacks[ OTHER_DYE_SLOT ] != null )
 			{
-				progressNeeded += 240;
+				progressNeeded += EXTRA_BURN_TIME;
 			}
 			
 			if ( stacks[ OUTPUT_SLOT ] != null )
@@ -268,15 +345,15 @@ public class KilnTileEntity extends TileEntity implements IInventory {
     {
     	int id = ( ( MoldItem )( stacks[ MOLD_SLOT ].getItem() ) ).getOutputId();
     	int plateColor = getDyeColor( stacks[ MAIN_DYE_SLOT ] );
-    	int data = ( plateColor >> 0 ) & 0x00F;
+    	int data = ( plateColor << 0 ) & 0x00F;
     	
     	if ( stacks[ STENCIL_SLOT ] != null && stacks[ OTHER_DYE_SLOT ] != null )
     	{
     		int stencilType = ( ( StencilItem )( stacks[ STENCIL_SLOT ].getItem() ) ).getStencilType();
         	int stencilColor = getDyeColor( stacks[ OTHER_DYE_SLOT ] );
         	
-        	data |= ( stencilType >> 4 ) & 0x0F0;
-        	data |= ( stencilColor >> 8 ) & 0xF00;
+        	data |= ( stencilType << 4 ) & 0x0F0;
+        	data |= ( stencilColor << 8 ) & 0xF00;
     	}
     	
     	ItemStack result = new ItemStack( id, 1, data );
@@ -285,6 +362,11 @@ public class KilnTileEntity extends TileEntity implements IInventory {
     
     private int getDyeColor( ItemStack stack )
     {
+    	if ( stack == null )
+    	{
+    		return 15; // White
+    	}
+    	
         String[] dyes =
         {
             "dyeBlack",
@@ -324,7 +406,7 @@ public class KilnTileEntity extends TileEntity implements IInventory {
         		}
         	}
         	
-        	if ( vanillaDye != null )
+        	if ( thisColor && vanillaDye != null )
         	{
         		return vanillaDye.getItemDamage();
         	}
@@ -334,8 +416,14 @@ public class KilnTileEntity extends TileEntity implements IInventory {
         return 15; // White
     }
     
+    private void setBurnState( boolean burning )
+    {
+    	KilnBlock.updateKilnBlockState( burning, this.worldObj, this.xCoord, this.yCoord, this.zCoord );
+    }
+    
     private ItemStack stacks[] = new ItemStack[ 7 ];
     private int burnTimeLeft;
+    private int burnTimeTotal;
     private int progressAmount;
     private int progressNeeded;
     
@@ -346,4 +434,7 @@ public class KilnTileEntity extends TileEntity implements IInventory {
     public static final int OTHER_DYE_SLOT = 4;
     public static final int STENCIL_SLOT = 5;
     public static final int OUTPUT_SLOT = 6;
+    
+    public static final int BASE_BURN_TIME = 36;//00;
+    public static final int EXTRA_BURN_TIME = 24;//00;
 }

@@ -9,9 +9,10 @@ import org.lwjgl.opengl.GL11;
 
 public class KilnGui extends GuiContainer
 {
-	public KilnGui( InventoryPlayer player, KilnTileEntity plate )
+	public KilnGui( InventoryPlayer player, KilnTileEntity theKiln )
 	{
-        super( new KilnContainer( player, plate ) );
+        super( new KilnContainer( player, theKiln ) );
+        kiln = theKiln;
 	}
 	
 	@Override
@@ -29,7 +30,43 @@ public class KilnGui extends GuiContainer
         int x = ( width - xSize ) / 2;
         int y = ( height - ySize ) / 2;
         this.drawTexturedModalRect( x, y, 0, 0, xSize, ySize );
+
+        if ( kiln.getBurnTimeLeft() > 0 )
+        {
+        	float scale = kiln.getBurnTimeLeft() / ( ( float )( kiln.getBurnTimeTotal() ) );
+        	int size = ( int ) Math.ceil( 14 * scale );
+        	
+            this.drawTexturedModalRect( x + 80, y + 45 + ( 14 - size ), 176, 14 - size, 14, size );
+        }
         
-        // TO DO: DRaw arrows and burning
+        if ( kiln.getProgressAmount() > 0 )
+        {
+        	if ( kiln.getProgressAmount() < KilnTileEntity.BASE_BURN_TIME )
+        	{
+            	float scale = kiln.getProgressAmount() / ( ( float ) KilnTileEntity.BASE_BURN_TIME );
+            	int size = ( int ) Math.ceil( 24 * scale );
+            	
+                this.drawTexturedModalRect( x + 55, y + 17, 176, 14, size, 17 );
+        	}
+        	else
+        	{
+        		this.drawTexturedModalRect( x + 55, y + 17, 176, 14, 24, 17 );
+        		
+        		int prog2 = kiln.getProgressAmount() - KilnTileEntity.BASE_BURN_TIME;
+            	if ( prog2 < KilnTileEntity.EXTRA_BURN_TIME )
+            	{
+                	float scale = prog2 / ( ( float ) KilnTileEntity.EXTRA_BURN_TIME );
+                	int size = ( int ) Math.ceil( 24 * scale );
+                	
+                    this.drawTexturedModalRect( x + 97, y + 17, 176, 14, size, 17 );
+            	}
+            	else
+            	{
+            		this.drawTexturedModalRect( x + 97, y + 17, 176, 14, 24, 17 );
+            	}
+        	}
+        }
 	}
+	
+	private KilnTileEntity kiln;
 }
