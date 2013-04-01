@@ -72,13 +72,13 @@ public class PlateContainer extends Container
 		{
 			for (int ix = 0; ix < 9; ix++)
 			{
-				addSlotToContainer( new Slot( player, ix + iy * 9 + 9 + 1, 8 + ix * 18, 84 + iy * 18 ) );
+				addSlotToContainer( new Slot( player, ix + iy * 9 + 9, 8 + ix * 18, 84 + iy * 18 ) );
 			}
 		}
 		
 		for (int ix = 0; ix < 9; ix++)
 		{
-			addSlotToContainer( new Slot( player, ix + 1, 8 + ix * 18, 142 ) );
+			addSlotToContainer( new Slot( player, ix, 8 + ix * 18, 142 ) );
 		}
 	}
 	

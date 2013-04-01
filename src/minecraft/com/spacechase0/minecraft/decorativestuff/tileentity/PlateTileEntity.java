@@ -97,6 +97,9 @@ public class PlateTileEntity extends TileEntity implements IInventory
     {
 		super.readFromNBT( tag );
 		stack = ItemStack.loadItemStackFromNBT( ( NBTTagCompound ) tag.getTag( "Food" ) );
+		color = ( int ) tag.getShort( "Color" );
+		stencilType = ( int ) tag.getShort( "StencilType" );
+		stencilColor = ( int ) tag.getShort( "StencilColor" );
     }
 
     @Override
@@ -110,6 +113,10 @@ public class PlateTileEntity extends TileEntity implements IInventory
 			stack.writeToNBT( item );
 		}
 		tag.setTag( "Food", item );
+		
+		tag.setShort( "Color", ( short ) color );
+		tag.setShort( "StencilType", ( short ) stencilType );
+		tag.setShort( "StencilColor", ( short ) stencilColor );
     }
     
     @Override
@@ -128,6 +135,35 @@ public class PlateTileEntity extends TileEntity implements IInventory
     		readFromNBT( pkt.customParam1 );
     	}
     }
+    
+    public void setColor( int theColor )
+    {
+    	color = theColor;
+    }
+    
+    public void setStencil( int type, int color )
+    {
+    	stencilType = type;
+    	stencilColor = color;
+    }
+    
+    public int getColor()
+    {
+    	return color;
+    }
+    
+    public int getStencilType()
+    {
+    	return stencilType;
+    }
+    
+    public int getStencilColor()
+    {
+    	return stencilColor;
+    }
 	
 	private ItemStack stack;
+	private int color;
+	private int stencilType;
+	private int stencilColor;
 }

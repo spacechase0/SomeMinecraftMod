@@ -37,6 +37,11 @@ public class KilnTileEntity extends TileEntity implements IInventory {
 	@Override
 	public ItemStack decrStackSize( int slot, int amt )
 	{
+		if ( stacks[ slot ] == null )
+		{
+			return null;
+		}
+		
 		ItemStack ret = stacks[ slot ].copy();
 		ret.stackSize = Math.min( amt, stacks[ slot ].stackSize );
 		
@@ -171,7 +176,7 @@ public class KilnTileEntity extends TileEntity implements IInventory {
 	public void updateEntity()
 	{
 		updateProgressNeeded();
-		System.out.println(burnTimeLeft + "/" + burnTimeTotal + " " + progressAmount + "/" + progressNeeded);
+		//System.out.println(burnTimeLeft + "/" + burnTimeTotal + " " + progressAmount + "/" + progressNeeded);
 		if ( progressNeeded > 0 && burnTimeLeft <= 0 && stacks[ FUEL_SLOT ] != null )
 		{
 			burnTimeTotal = burnTimeLeft = TileEntityFurnace.getItemBurnTime( stacks[ FUEL_SLOT ] );

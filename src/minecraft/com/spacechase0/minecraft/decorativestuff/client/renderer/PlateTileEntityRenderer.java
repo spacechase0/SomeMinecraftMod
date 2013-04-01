@@ -11,7 +11,7 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 
-public class PlateRenderer extends TileEntitySpecialRenderer
+public class PlateTileEntityRenderer extends TileEntitySpecialRenderer
 {
 	@Override
 	public void renderTileEntityAt( TileEntity entity, double x, double y, double z, float f )
@@ -28,7 +28,8 @@ public class PlateRenderer extends TileEntitySpecialRenderer
         GL11.glColor4f( 1.0F, 1.0F, 1.0F, 1.0F );
         
         bindTextureByName( "/mods/decorativeStuff/textures/blocks/porcelainBlock.png" );
-        plateModel.renderAll();
+        plateModel.renderAll( this, plate.getColor(), plate.getStencilType(), plate.getStencilColor() );
+        GL11.glColor4f( 1.0F, 1.0F, 1.0F, 1.0F );
         
         ItemStack stack = plate.getStackInSlot( 0 );
         FoodModel food = ( stack != null ) ? FoodModelRegistry.getModelForId( stack.itemID ) : null;
@@ -44,6 +45,11 @@ public class PlateRenderer extends TileEntitySpecialRenderer
         }
         
         GL11.glPopMatrix();
+	}
+	
+	public void bindTexture( String tex )
+	{
+		bindTextureByName( tex );
 	}
 	
 	private PlateModel plateModel = new PlateModel();

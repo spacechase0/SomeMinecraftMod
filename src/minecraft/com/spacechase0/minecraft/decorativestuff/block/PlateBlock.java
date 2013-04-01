@@ -3,6 +3,7 @@ package com.spacechase0.minecraft.decorativestuff.block;
 import java.util.Random;
 
 import com.spacechase0.minecraft.decorativestuff.DecorativeStuff;
+import com.spacechase0.minecraft.decorativestuff.item.StencilItem;
 import com.spacechase0.minecraft.decorativestuff.tileentity.PlateTileEntity;
 
 import net.minecraft.block.Block;
@@ -117,8 +118,4 @@ public class PlateBlock extends BlockContainer
 		float incr = 1.f / 16;
         this.setBlockBounds( 1 * incr, 0, 1 * incr, 15 * incr, 2 * incr, 15 * incr );
     }
-	
-	private Icon sideIcon;
-	private Icon bottomIcon;
-	private Icon topIcon;
 }

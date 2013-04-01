@@ -11,6 +11,6 @@ public class ClientProxy extends CommonProxy
 	@Override
 	public void init()
 	{
-		ClientRegistry.bindTileEntitySpecialRenderer( PlateTileEntity.class, new PlateRenderer() );
+		ClientRegistry.bindTileEntitySpecialRenderer( PlateTileEntity.class, new PlateTileEntityRenderer() );
 	}
 }
