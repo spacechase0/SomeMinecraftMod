@@ -28,10 +28,23 @@ public class PlateTileEntity extends TileEntity implements IInventory
 	@Override
 	public ItemStack decrStackSize( int slot, int amt )
 	{
+		if ( stack == null )
+		{
+			return null;
+		}
+		
 		ItemStack ret = stack.copy();
 		ret.stackSize = Math.min( amt, stack.stackSize );
 		
 		stack.stackSize -= ret.stackSize;
+		
+		if ( stack.stackSize <= 0 )
+		{
+			stack = null;
+		}
+		
+		onInventoryChanged();
+		worldObj.markBlockForUpdate( xCoord, yCoord, zCoord );
 		
 		return ret;
 	}

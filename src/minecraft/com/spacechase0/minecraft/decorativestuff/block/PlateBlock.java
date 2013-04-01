@@ -1,17 +1,16 @@
 package com.spacechase0.minecraft.decorativestuff.block;
 
-import java.util.Random;
-
 import com.spacechase0.minecraft.decorativestuff.DecorativeStuff;
 import com.spacechase0.minecraft.decorativestuff.item.StencilItem;
 import com.spacechase0.minecraft.decorativestuff.tileentity.PlateTileEntity;
-
+import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -38,9 +37,20 @@ public class PlateBlock extends BlockContainer
         }
         else
         {
-            PlateTileEntity plate = ( PlateTileEntity ) world.getBlockTileEntity( x, y, z );
-            player.openGui( DecorativeStuff.instance, DecorativeStuff.PLATE_GUI_ID, world, x, y, z );
-
+    		PlateTileEntity plate = ( PlateTileEntity ) world.getBlockTileEntity( x, y, z );
+        	if ( player.getCurrentEquippedItem() == null  || plate.getStackInSlot( 0 ) == null )
+        	{
+        		player.openGui( DecorativeStuff.instance, DecorativeStuff.PLATE_GUI_ID, world, x, y, z );
+        	}
+        	else if ( player.getFoodStats().getFoodLevel() < 20 )
+        	{
+        		ItemStack stack = plate.decrStackSize( 0,  1 );
+        		if ( stack != null )
+        		{
+	        		ItemFood food = ( ItemFood ) stack.getItem();
+	        		food.onEaten( stack, world, player );
+        		}
+        	}
             return true;
         }
     }
