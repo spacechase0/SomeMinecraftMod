@@ -440,6 +440,6 @@ public class KilnTileEntity extends TileEntity implements IInventory {
     public static final int STENCIL_SLOT = 5;
     public static final int OUTPUT_SLOT = 6;
     
-    public static final int BASE_BURN_TIME = 36;//00;
-    public static final int EXTRA_BURN_TIME = 24;//00;
+    public static final int BASE_BURN_TIME = 3600;
+    public static final int EXTRA_BURN_TIME = 2400;
 }
