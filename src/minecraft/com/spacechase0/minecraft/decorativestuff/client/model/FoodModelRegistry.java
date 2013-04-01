@@ -35,9 +35,8 @@ public class FoodModelRegistry
 		registerModel( Item.bread.itemID, new BreadModel() );
 		registerModel( Item.appleGold.itemID, new AppleModel( true ) );
 //		360 melon
-//		365 raw chicken
-//		366 cooked chicken
-//		391 carrot
+		registerModel( Item.chickenCooked.itemID, new ChickenModel( true ) );
+		registerModel( Item.chickenRaw.itemID, new ChickenModel( false ) );
 //		392 potatos
 //		393 baked potatos
 //		394 poisonous potato
