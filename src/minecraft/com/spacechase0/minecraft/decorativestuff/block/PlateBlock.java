@@ -73,6 +73,30 @@ public class PlateBlock extends BlockContainer
             	plate.decrStackSize( 0, stack.stackSize );
         	}
         }
+        
+        // TO DO: Check creative mode
+        {
+    		Random rand = new Random();
+    		
+            float fx = rand.nextFloat() * 0.8F + 0.1F;
+            float fy = rand.nextFloat() * 0.8F + 0.1F;
+            float fz = rand.nextFloat() * 0.8F + 0.1F;
+            
+			int data = 0;
+			data |= ( plate.getColor() << 0 ) & 0x00F;
+			data |= ( plate.getStencilType() << 4 ) & 0x0F0;
+			data |= ( plate.getStencilColor() << 8 ) & 0xF00;
+			ItemStack stack = new ItemStack( DecorativeStuff.plateItem, 1, data );
+            
+    		EntityItem entity = new EntityItem( world, (double)((float)x + fx), (double)((float)y + fy), (double)((float)z + fz), stack);
+    		
+            float f3 = 0.05F;
+            entity.motionX = (double)((float)rand.nextGaussian() * f3);
+            entity.motionY = (double)((float)rand.nextGaussian() * f3 + 0.2F);
+            entity.motionZ = (double)((float)rand.nextGaussian() * f3);
+            
+            world.spawnEntityInWorld(entity);
+        }
 
         super.breakBlock( world, x, y, z, par5, par6 );
     }
@@ -91,7 +115,7 @@ public class PlateBlock extends BlockContainer
 	@Override
     public int idDropped(int par1, Random par2Random, int par3)
     {
-        return DecorativeStuff.plateItem.itemID;
+        return 0;//DecorativeStuff.plateItem.itemID;
     }
 	
 	@Override

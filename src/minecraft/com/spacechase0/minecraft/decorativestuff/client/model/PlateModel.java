@@ -1,6 +1,6 @@
 package com.spacechase0.minecraft.decorativestuff.client.model;
 
-import com.spacechase0.minecraft.decorativestuff.client.renderer.PlateTileEntityRenderer;
+import com.spacechase0.minecraft.decorativestuff.client.renderer.TextureBinder;
 import com.spacechase0.minecraft.decorativestuff.item.StencilItem;
 
 import net.minecraft.client.model.ModelBase;
@@ -34,7 +34,12 @@ public class PlateModel extends ModelBase
 		top.addBox( 1, 1, 1, 14, 1, 14, 0.f );
 	}
 	
-    public void renderAll( PlateTileEntityRenderer plate, int plateColor, int stencilType, int stencilColor )
+    public void renderAll( TextureBinder texBinder, int plateColor, int stencilType, int stencilColor )
+    {
+    	renderAll( texBinder, plateColor, stencilType, stencilColor, false );
+    }
+	
+    public void renderAll( TextureBinder texBinder, int plateColor, int stencilType, int stencilColor, boolean ignoreDepth )
 	{
     	GL11.glColor3f( getColor( plateColor ).r / 255.f, getColor( plateColor ).g / 255.f, getColor( plateColor ).b / 255.f );
     	bottom.render( 1.f / 16 );
@@ -44,9 +49,13 @@ public class PlateModel extends ModelBase
     	{
     		Color col = getColor(stencilColor);
     		//System.out.println(getStencilTex(stencilType)+ " "+col.r+" "+col.g+" "+col.b);
-	    	plate.bindTexture( getStencilTex( stencilType ) );
+    		texBinder.bindTexture( getStencilTex( stencilType ) );
 	    	GL11.glColor3f( getColor( stencilColor ).r / 255.f, getColor( stencilColor ).g / 255.f, getColor( stencilColor ).b / 255.f );
-	    	//GL11.glEnable( GL11.GL_BLEND );
+	    	
+	    	if ( ignoreDepth )
+	    	{
+	    		GL11.glDisable( GL11.GL_DEPTH_TEST );
+	    	}
 	    	
 	    	float incr = 1.f / 16;
 	    	
@@ -56,9 +65,17 @@ public class PlateModel extends ModelBase
 	    	tessellator.addVertexWithUV( incr *  1, incr * 2.1, incr * 15, 0, 1 );
 	    	tessellator.addVertexWithUV( incr * 15, incr * 2.1, incr * 15, 1, 1 );
 	    	tessellator.addVertexWithUV( incr * 15, incr * 2.1, incr *  1, 1, 0 );
+	    	//tessellator.draw();
+	    	tessellator.addVertexWithUV( incr *  1, incr * 2.1, incr *  1, 0, 0 );
+	    	tessellator.addVertexWithUV( incr * 15, incr * 2.1, incr *  1, 1, 0 );
+	    	tessellator.addVertexWithUV( incr * 15, incr * 2.1, incr * 15, 1, 1 );
+	    	tessellator.addVertexWithUV( incr *  1, incr * 2.1, incr * 15, 0, 1 );
 	    	tessellator.draw();
-	    	
-	    	//GL11.glDisable( GL11.GL_BLEND );
+
+	    	if ( ignoreDepth )
+	    	{
+	    		GL11.glEnable( GL11.GL_DEPTH_TEST );
+	    	}
     	}
 	}
     

@@ -11,7 +11,7 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 
-public class PlateTileEntityRenderer extends TileEntitySpecialRenderer
+public class PlateTileEntityRenderer extends TileEntitySpecialRenderer implements TextureBinder
 {
 	@Override
 	public void renderTileEntityAt( TileEntity entity, double x, double y, double z, float f )
