@@ -97,7 +97,7 @@ public class DecorativeStuff
 		GameRegistry.registerItem( rawPorcelainChunk, rawPorcelainChunk.getUnlocalizedName() );
 		LanguageRegistry.addName( rawPorcelainChunk, "Raw Porcelain Chunk" );
 		
-		moldBase = ( SimpleItem ) ( new SimpleItem( getItemId( "moldBase", 2 ), "moldBase" ) ).setMaxStackSize( 16 );
+		moldBase = ( SimpleItem ) ( new SimpleItem( getItemId( "moldBase", 7 ), "moldBase" ) ).setMaxStackSize( 16 );
 		GameRegistry.registerItem( moldBase, moldBase.getUnlocalizedName() );
 		LanguageRegistry.addName( moldBase, "Mold Base" );
 		
@@ -105,7 +105,7 @@ public class DecorativeStuff
 		GameRegistry.registerItem( plateMold, plateMold.getUnlocalizedName() );
 		LanguageRegistry.addName( plateMold, "Plate Mold" );
 		
-		stencilBase = ( SimpleItem ) ( new SimpleItem( getItemId( "stencilBase", 2 ), "stencilBase" ) ).setMaxStackSize( 16 );
+		stencilBase = ( SimpleItem ) ( new SimpleItem( getItemId( "stencilBase", 6 ), "stencilBase" ) ).setMaxStackSize( 16 );
 		GameRegistry.registerItem( stencilBase, stencilBase.getUnlocalizedName() );
 		LanguageRegistry.addName( stencilBase, "Stencil Base" );
 		
@@ -120,6 +120,8 @@ public class DecorativeStuff
 		bubbleStencil = new StencilItem( getItemId( "bubbleStencil", 5 ), "bubble", StencilItem.BUBBLE_STENCIL );
 		GameRegistry.registerItem( bubbleStencil, bubbleStencil.getUnlocalizedName() );
 		LanguageRegistry.addName( bubbleStencil, "Bubble Stencil" );
+		
+		// 6 and 7
 	}
 	
 	private void registerRecipes()
