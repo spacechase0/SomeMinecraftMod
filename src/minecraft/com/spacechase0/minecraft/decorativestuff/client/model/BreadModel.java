@@ -14,7 +14,7 @@ public class BreadModel extends FoodModel
 	@Override
 	public String getTextureName()
 	{
-		return "/mods/decorativeStuff/textures/models/bread.png";
+		return "/mods/decorativestuff/textures/models/bread.png";
 	}
 	
 	@Override

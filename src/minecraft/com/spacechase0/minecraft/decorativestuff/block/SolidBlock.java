@@ -22,7 +22,7 @@ public class SolidBlock extends Block
 	@Override
     public void registerIcons( IconRegister register )
     {
-		blockIcon = register.registerIcon( "decorativeStuff:" + name );
+		blockIcon = register.registerIcon( "decorativestuff:" + name );
     }
 	
 	private final String name;

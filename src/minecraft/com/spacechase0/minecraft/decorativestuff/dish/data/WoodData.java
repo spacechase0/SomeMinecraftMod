@@ -48,14 +48,14 @@ public class WoodData implements DishData
 	@Override
 	public void bindTexture( String dishType, ITextureBinder binder )
 	{
-		String path = "/mod/decorativeStuff/texture/models/dish" + dishType + "Wood-" + id + "_" + data + ".png";
+		String path = "/mod/decorativestuff/texture/models/dish" + dishType + "Wood-" + id + "_" + data + ".png";
 		binder.bindTexture( DecorativeStuff.instance.proxy.getTexture( path ) );
-		//binder.bindTexture( "/mods/decorativeStuff/textures/blocks/porcelainBlock.png" );
+		//binder.bindTexture( "/mods/decorativestuff/textures/blocks/porcelainBlock.png" );
 	}
 	
 	public static WoodData getFromData( int itemData )
 	{
-		short id = ( byte )( ( itemData >> 0 ) & 0x0FFF );
+		short id = ( short )( ( itemData >> 0 ) & 0x0FFF );
 		byte data = ( byte )( ( itemData >> 12 ) & 0x000F );
 		
 		return new WoodData( id, data );

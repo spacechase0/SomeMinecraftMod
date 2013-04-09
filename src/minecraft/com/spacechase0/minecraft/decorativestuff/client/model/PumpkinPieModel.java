@@ -17,7 +17,7 @@ public class PumpkinPieModel extends FoodModel
 	@Override
 	public String getTextureName()
 	{
-		return "/mods/decorativeStuff/textures/models/pumpkinPie.png";
+		return "/mods/decorativestuff/textures/models/pumpkinPie.png";
 	}
 	
 	@Override

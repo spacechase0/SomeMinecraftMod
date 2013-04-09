@@ -28,7 +28,7 @@ public class ChickenModel extends FoodModel
 	@Override
 	public String getTextureName()
 	{
-		return "/mods/decorativeStuff/textures/models/" + ( cooked ? "cooked" : "raw" ) + "Chicken.png";
+		return "/mods/decorativestuff/textures/models/" + ( cooked ? "cooked" : "raw" ) + "Chicken.png";
 	}
 	
 	@Override

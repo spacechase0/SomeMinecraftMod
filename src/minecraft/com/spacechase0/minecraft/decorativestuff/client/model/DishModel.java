@@ -105,7 +105,7 @@ public abstract class DishModel extends ModelBase
     
     private String getStencilTex( int type )
     {
-    	return "/mods/decorativeStuff/textures/models/stencil" + getDishType() + type + ".png";
+    	return "/mods/decorativestuff/textures/models/stencil" + getDishType() + type + ".png";
     }
     
     private Tessellator tessellator;

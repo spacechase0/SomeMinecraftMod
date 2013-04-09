@@ -29,7 +29,7 @@ public class MushroomSoupModel extends FoodModel
 	@Override
 	public String getTextureName()
 	{
-		return "/mods/decorativeStuff/textures/models/mushroomSoup.png";
+		return "/mods/decorativestuff/textures/models/mushroomSoup.png";
 	}
 	
 	@Override

@@ -23,7 +23,7 @@ public class SimpleItem extends Item
     @SideOnly(Side.CLIENT)
     public void updateIcons( IconRegister register )
     {
-        iconIndex = register.registerIcon( "decorativeStuff:" + tex );
+        iconIndex = register.registerIcon( "decorativestuff:" + tex );
     }
 	
 	private final String tex;

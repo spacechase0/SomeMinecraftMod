@@ -19,7 +19,7 @@ public class AppleModel extends FoodModel
 	@Override
 	public String getTextureName()
 	{
-		return "/mods/decorativeStuff/textures/models/" + ( isGolden ? "golden" : "red" ) + "Apple.png";
+		return "/mods/decorativestuff/textures/models/" + ( isGolden ? "golden" : "red" ) + "Apple.png";
 	}
 	
 	@Override

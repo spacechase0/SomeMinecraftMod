@@ -33,7 +33,7 @@ public class KilnBlock extends BlockFurnace
     public void registerIcons( IconRegister register )
     {
 		blockIcon = Block.brick.getBlockTextureFromSide( 0 );
-		mainIcon = register.registerIcon( "decorativeStuff:kiln" + ( active ? "active" : "idle" ) );
+		mainIcon = register.registerIcon( "decorativestuff:kiln" + ( active ? "Active" : "Idle" ) );
     }
 	
 	@Override

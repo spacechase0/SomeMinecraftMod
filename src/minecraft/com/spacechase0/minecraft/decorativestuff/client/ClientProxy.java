@@ -66,7 +66,7 @@ public class ClientProxy extends CommonProxy
 			}
 			else
 			{
-				String tex = "/mod/decorativeStuff/texture/models/dishPlateWood-" + stack.itemID + "_" + stack.getItemDamage() + ".png";
+				String tex = "/mod/decorativestuff/texture/models/dishPlateWood-" + stack.itemID + "_" + stack.getItemDamage() + ".png";
 				Icon icon = Block.blocksList[ stack.itemID ].getBlockTextureFromSideAndMetadata( 0, stack.getItemDamage() );
 				makeTextureFor( tex, icon );
 			}
@@ -77,7 +77,7 @@ public class ClientProxy extends CommonProxy
 	@Override
 	public void checkForDishTextures( TextureLoadEvent event )
 	{
-		String prefix = "/mod/decorativeStuff/texture/models/dish";
+		String prefix = "/mod/decorativestuff/texture/models/dish";
 		if ( event.texture.startsWith( prefix ) && event.texture.endsWith( ".png" ) )
 		{
 			String str = event.texture.substring( prefix.length(), event.texture.length() - 4 );
@@ -106,10 +106,11 @@ public class ClientProxy extends CommonProxy
 	
 	private void makeTextureFor( String str, Icon icon )
 	{
+		System.out.println( "Generating texture " + str + "..." );
         try
         {
         	Minecraft mc = FMLClientHandler.instance().getClient();
-			RenderEngine re = mc.renderEngine;
+        	RenderEngine re = mc.renderEngine;
 			
 			String texPath = iconToPath( re, icon );
 			ITexturePack pack = mc.texturePackList.getSelectedTexturePack();
@@ -148,7 +149,7 @@ public class ClientProxy extends CommonProxy
 					}
 				}
 			}
-			ImageIO.write( image, "PNG", new File( "image.png" ) );
+			ImageIO.write( image, "PNG", new File( new File( str ).getName() ) );
 			
 			int id = re.allocateAndSetupTexture( image );
 			textures.put( str, id );

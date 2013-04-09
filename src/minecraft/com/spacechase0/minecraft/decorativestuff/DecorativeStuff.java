@@ -24,7 +24,7 @@ import net.minecraftforge.client.event.TextureLoadEvent;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.event.ForgeSubscribe;
 
-@Mod( modid = "SC0_DecorativeStuff", name = "Decorative Stuff", version = "0.1" )
+@Mod( modid = "SC0_DecorativeStuff", name = "Decorative Stuff", version = "0.2" )
 @NetworkMod( clientSideRequired = true, serverSideRequired = false )
 public class DecorativeStuff
 { 

@@ -26,7 +26,7 @@ public class KilnGui extends GuiContainer
 	protected void drawGuiContainerBackgroundLayer( float f, int i, int j )
 	{
         GL11.glColor4f( 1.0F, 1.0F, 1.0F, 1.0F );
-        mc.renderEngine.bindTexture("/mods/decorativeStuff/textures/gui/kiln.png" );
+        mc.renderEngine.bindTexture("/mods/decorativestuff/textures/gui/kiln.png" );
         int x = ( width - xSize ) / 2;
         int y = ( height - ySize ) / 2;
         this.drawTexturedModalRect( x, y, 0, 0, xSize, ySize );

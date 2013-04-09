@@ -48,7 +48,7 @@ public class PorcelainData implements DishData
 	@Override
 	public void bindTexture( String dishType, ITextureBinder binder )
 	{
-		binder.bindTexture( "/mods/decorativeStuff/textures/blocks/porcelainBlock.png" );
+		binder.bindTexture( "/mods/decorativestuff/textures/blocks/porcelainBlock.png" );
 	}
 	
 	public static PorcelainData getFromData( int data )
