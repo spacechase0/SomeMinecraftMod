@@ -15,9 +15,9 @@ public class GuiHandler implements IGuiHandler
 	public Object getServerGuiElement(int id, EntityPlayer player, World world, int x, int y, int z )
 	{
 		TileEntity entity = world.getBlockTileEntity( x, y, z );
-		if ( entity instanceof PlateTileEntity )
+		if ( entity instanceof DishTileEntity )
 		{
-			return new PlateContainer( player.inventory, ( PlateTileEntity ) entity );
+			return new DishContainer( player.inventory, ( DishTileEntity ) entity );
 		}
 		else if ( entity instanceof KilnTileEntity )
 		{
@@ -31,9 +31,9 @@ public class GuiHandler implements IGuiHandler
 	public Object getClientGuiElement( int id, EntityPlayer player, World world, int x, int y, int z )
 	{
 		TileEntity entity = world.getBlockTileEntity( x, y, z );
-		if ( entity instanceof PlateTileEntity )
+		if ( entity instanceof DishTileEntity )
 		{
-			return new PlateGui( player.inventory, ( PlateTileEntity ) entity );
+			return new PlateGui( player.inventory, ( DishTileEntity ) entity );
 		}
 		else if ( entity instanceof KilnTileEntity )
 		{

@@ -1,26 +1,25 @@
 package com.spacechase0.minecraft.decorativestuff.inventory;
 
-import com.spacechase0.minecraft.decorativestuff.tileentity.PlateTileEntity;
-
+import com.spacechase0.minecraft.decorativestuff.tileentity.DishTileEntity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.*;
 import net.minecraft.item.ItemStack;
 
-public class PlateContainer extends Container
+public class DishContainer extends Container
 {
-	public PlateContainer( InventoryPlayer player, PlateTileEntity thePlate )
+	public DishContainer( InventoryPlayer player, DishTileEntity theDish )
 	{
-		plate = thePlate;
+		dish = theDish;
 		
-		addSlotToContainer( new ValidatingSlot( plate, 0, 80, 35 ) );
+		addSlotToContainer( new ValidatingSlot( dish, 0, 80, 35 ) );
 		bindPlayerInventory( player );
 	}
 	
 	@Override
 	public boolean canInteractWith( EntityPlayer player )
 	{
-		return plate.isUseableByPlayer( player );
+		return dish.isUseableByPlayer( player );
 	}
 	
     @Override
@@ -82,5 +81,5 @@ public class PlateContainer extends Container
 		}
 	}
 	
-	private final PlateTileEntity plate;
+	private final DishTileEntity dish;
 }

@@ -1,17 +1,21 @@
 package com.spacechase0.minecraft.decorativestuff.tileentity;
 
+import com.spacechase0.minecraft.decorativestuff.dish.*;
+import com.spacechase0.minecraft.decorativestuff.dish.data.*;
+import com.spacechase0.minecraft.decorativestuff.dish.material.DishMaterial;
+import com.spacechase0.minecraft.decorativestuff.dish.type.DishType;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.*;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
 
-public class PlateTileEntity extends TileEntity implements IInventory
+public class DishTileEntity extends TileEntity implements IInventory
 {
 	@Override
 	public int getSizeInventory()
@@ -63,11 +67,17 @@ public class PlateTileEntity extends TileEntity implements IInventory
 			stack = item;
 		}
 	}
-
+	
+	@Override
+	public boolean isStackValidForSlot( int i, ItemStack item )
+	{
+		return type.isStackValid( item );
+	}
+	
 	@Override
 	public String getInvName()
 	{
-		return "Plate";
+		return type.Type;
 	}
 
 	@Override
@@ -98,21 +108,32 @@ public class PlateTileEntity extends TileEntity implements IInventory
 	public void closeChest()
 	{
 	}
-
-	@Override
-	public boolean isStackValidForSlot( int i, ItemStack item )
-	{
-		return ( ( item == null ) || ( item.getItem() instanceof ItemFood ) );
-	}
 	
     @Override
     public void readFromNBT( NBTTagCompound tag )
     {
 		super.readFromNBT( tag );
 		stack = ItemStack.loadItemStackFromNBT( ( NBTTagCompound ) tag.getTag( "Food" ) );
-		color = ( int ) tag.getShort( "Color" );
-		stencilType = ( int ) tag.getShort( "StencilType" );
-		stencilColor = ( int ) tag.getShort( "StencilColor" );
+
+		NBTTagCompound nbtData = ( NBTTagCompound ) tag.getTag( "Data" );
+		if ( nbtData != null )
+		{
+			type = DishType.forId( nbtData.getByte( "Type" ) );
+			
+			byte mat = nbtData.getByte( "Material" );
+			setDishData( DishMaterial.forId( mat ).getDishData( nbtData ) );
+		}
+		else
+		{
+			// For compatibility with 0.1
+			type = DishType.PLATE;
+			
+			byte color = ( byte ) tag.getShort( "Color" );
+			byte stencilType = ( byte ) tag.getShort( "StencilType" );
+			byte stencilColor = ( byte ) tag.getShort( "StencilColor" );
+			
+			data = new PorcelainData( color, stencilType, stencilColor );
+		}
     }
 
     @Override
@@ -127,9 +148,12 @@ public class PlateTileEntity extends TileEntity implements IInventory
 		}
 		tag.setTag( "Food", item );
 		
-		tag.setShort( "Color", ( short ) color );
-		tag.setShort( "StencilType", ( short ) stencilType );
-		tag.setShort( "StencilColor", ( short ) stencilColor );
+		tag.setByte( "Type", ( byte ) type.id );
+		
+		NBTTagCompound nbtData = new NBTTagCompound();
+		nbtData.setByte( "Material", data.getMaterial().getId() );
+		data.writeToNbt( nbtData );
+		tag.setTag( "Data", nbtData );
     }
     
     @Override
@@ -149,34 +173,47 @@ public class PlateTileEntity extends TileEntity implements IInventory
     	}
     }
     
-    public void setColor( int theColor )
+    public void setDishType( DishType theType )
     {
-    	color = theColor;
+    	type = theType;
     }
     
-    public void setStencil( int type, int color )
+    public DishType getDishType()
     {
-    	stencilType = type;
-    	stencilColor = color;
+    	return type;
     }
     
-    public int getColor()
+    public void setDishData( DishData theData )
     {
-    	return color;
+    	data = theData;
+    }
+
+    public void setAsPorcelain( byte color, byte stencilType, byte stencilColor )
+    {
+    	data = new PorcelainData( color, stencilType, stencilColor );
+    }
+
+    public void setAsWood( short id, byte theData )
+    {
+    	data = new WoodData( id, theData );
     }
     
-    public int getStencilType()
+    public DishData getDishData()
     {
-    	return stencilType;
+    	return data;
     }
     
-    public int getStencilColor()
+    public PorcelainData getPorcelainData()
     {
-    	return stencilColor;
+    	return ( ( data instanceof PorcelainData ) ? ( ( PorcelainData ) data ) : null );
+    }
+    
+    public WoodData getWoodData()
+    {
+    	return ( ( data instanceof WoodData ) ? ( ( WoodData ) data ) : null );
     }
 	
 	private ItemStack stack;
-	private int color;
-	private int stencilType;
-	private int stencilColor;
+	private DishType type;
+	private DishData data;
 }

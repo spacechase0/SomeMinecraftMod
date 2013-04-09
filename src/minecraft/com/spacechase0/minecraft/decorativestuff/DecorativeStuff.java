@@ -1,9 +1,9 @@
 package com.spacechase0.minecraft.decorativestuff;
 
 import com.spacechase0.minecraft.decorativestuff.block.*;
+import com.spacechase0.minecraft.decorativestuff.dish.material.DishMaterial;
 import com.spacechase0.minecraft.decorativestuff.item.*;
 import com.spacechase0.minecraft.decorativestuff.tileentity.*;
-
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.event.*;
 import cpw.mods.fml.common.Mod;
@@ -20,7 +20,9 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.client.event.TextureLoadEvent;
 import net.minecraftforge.common.Configuration;
+import net.minecraftforge.event.ForgeSubscribe;
 
 @Mod( modid = "SC0_DecorativeStuff", name = "Decorative Stuff", version = "0.1" )
 @NetworkMod( clientSideRequired = true, serverSideRequired = false )
@@ -61,7 +63,17 @@ public class DecorativeStuff
 	public void postInit( FMLPostInitializationEvent event )
 	{
 		config.save();
+		
+		proxy.makeDishTextures();
 	}
+	
+	/*
+	@ForgeSubscribe
+	public void onTextureLoad( TextureLoadEvent event )
+	{
+		proxy.checkForDishTextures( event );
+	}
+	//*/
 	
 	private void registerCreativeTabs()
 	{
@@ -89,9 +101,13 @@ public class DecorativeStuff
 	
 	private void registerItems()
 	{
-		plateItem = ( PlateItem )( new PlateItem( getItemId( "porcelainPlateItem", 0 ), plateBlock, "porcelain" ).setMaxStackSize( 16 ) );
-		GameRegistry.registerItem( plateItem, plateItem.getUnlocalizedName() );
-		LanguageRegistry.addName( plateItem, "Porcelain Plate" );
+		porcelainPlate = new DishItem( getItemId( "porcelainPlate", 0 ), plateBlock, DishMaterial.PORCELAIN, "Plate" );
+		GameRegistry.registerItem( porcelainPlate, porcelainPlate.getUnlocalizedName() );
+		LanguageRegistry.addName( porcelainPlate, "Porcelain Plate" );
+
+		woodPlate = new DishItem( getItemId( "woodPlate", 8 ), plateBlock, DishMaterial.WOOD, "Wood" );
+		GameRegistry.registerItem( woodPlate, woodPlate.getUnlocalizedName() );
+		LanguageRegistry.addName( woodPlate, "Wooden Plate" );
 		
 		rawPorcelainChunk = new SimpleItem( getItemId( "rawPorcelainChunk", 1 ), "rawPorcelainChunk" );
 		GameRegistry.registerItem( rawPorcelainChunk, rawPorcelainChunk.getUnlocalizedName() );
@@ -101,7 +117,12 @@ public class DecorativeStuff
 		GameRegistry.registerItem( moldBase, moldBase.getUnlocalizedName() );
 		LanguageRegistry.addName( moldBase, "Mold Base" );
 		
-		plateMold = new MoldItem( getItemId( "plateMold", 3 ), "plate", plateItem.itemID );
+		plateMold = new MoldItem( getItemId( "plateMold", 3 ), "plate",
+				                  new int[]
+				                  {
+			                      	porcelainPlate.itemID,
+			                      	woodPlate.itemID,
+				                  } );
 		GameRegistry.registerItem( plateMold, plateMold.getUnlocalizedName() );
 		LanguageRegistry.addName( plateMold, "Plate Mold" );
 		
@@ -121,7 +142,7 @@ public class DecorativeStuff
 		GameRegistry.registerItem( bubbleStencil, bubbleStencil.getUnlocalizedName() );
 		LanguageRegistry.addName( bubbleStencil, "Bubble Stencil" );
 		
-		// 6 and 7
+		// 6, 7, 8
 	}
 	
 	private void registerRecipes()
@@ -187,12 +208,6 @@ public class DecorativeStuff
 										" # ",
 										'#', stencilBase,
 				                      } );
-		// Temporary recipe
-		GameRegistry.addShapelessRecipe( new ItemStack( plateItem, 1 ),
-				                         new Object[]
-				                         {
-											plateMold, rawPorcelainChunk,
-				                         } );
 		
 		GameRegistry.addShapedRecipe( new ItemStack( idleKiln, 1 ),
 				                      new Object[]
@@ -204,11 +219,13 @@ public class DecorativeStuff
 										'^', Block.hopperBlock,
 										'O', Block.furnaceIdle,
 				                      } );
+		
+		GameRegistry.addRecipe( new WoodDishRecipes() );
 	}
 	
 	private void registerTileEntities()
 	{
-		GameRegistry.registerTileEntity( PlateTileEntity.class, "Plate" );
+		GameRegistry.registerTileEntity( DishTileEntity.class, "Plate" ); // "Plate" instead of "Dish" for compatibility reasons
 		GameRegistry.registerTileEntity( KilnTileEntity.class, "Kiln" );
 	}
 	
@@ -230,11 +247,11 @@ public class DecorativeStuff
 	public static CreativeTabs decorativeTab;
 	
 	public static SolidBlock porcelainBlock;
-	public static PlateBlock plateBlock;
+	public static DishBlock plateBlock;
 	public static KilnBlock idleKiln;
 	public static KilnBlock activeKiln;
 	
-	public static PlateItem plateItem;
+	public static DishItem porcelainPlate;
 	public static SimpleItem rawPorcelainChunk;
 	public static SimpleItem moldBase;
 	public static MoldItem plateMold;
@@ -242,11 +259,12 @@ public class DecorativeStuff
 	public static StencilItem straightStencil;
 	public static StencilItem abstractStencil;
 	public static StencilItem bubbleStencil;
+	public static DishItem woodPlate;
 	
 	private Configuration config;
 	private final int DEFAULT_BLOCK_BASE = 2890;
 	private final int DEFAULT_ITEM_BASE = 24890;
 	
-	public static final int PLATE_GUI_ID = 0;
+	public static final int DISH_GUI_ID = 0;
 	public static final int KILN_GUI_ID = 1;
 }

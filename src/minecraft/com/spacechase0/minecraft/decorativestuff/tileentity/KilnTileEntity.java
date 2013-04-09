@@ -1,7 +1,8 @@
 package com.spacechase0.minecraft.decorativestuff.tileentity;
 
-
 import com.spacechase0.minecraft.decorativestuff.block.KilnBlock;
+import com.spacechase0.minecraft.decorativestuff.dish.data.PorcelainData;
+import com.spacechase0.minecraft.decorativestuff.dish.material.DishMaterial;
 import com.spacechase0.minecraft.decorativestuff.DecorativeStuff;
 import com.spacechase0.minecraft.decorativestuff.item.MoldItem;
 import com.spacechase0.minecraft.decorativestuff.item.StencilItem;
@@ -348,24 +349,24 @@ public class KilnTileEntity extends TileEntity implements IInventory {
     
     private ItemStack getProjectedOutput()
     {
-    	int id = ( ( MoldItem )( stacks[ MOLD_SLOT ].getItem() ) ).getOutputId();
-    	int plateColor = getDyeColor( stacks[ MAIN_DYE_SLOT ] );
-    	int data = ( plateColor << 0 ) & 0x00F;
+    	int id = ( ( MoldItem )( stacks[ MOLD_SLOT ].getItem() ) ).getOutputId( DishMaterial.PORCELAIN.getId() );
     	
+    	int plateColor = getDyeColor( stacks[ MAIN_DYE_SLOT ] );
+    	PorcelainData data = new PorcelainData( ( byte ) plateColor, ( byte ) 0, ( byte ) 0 );
     	if ( stacks[ STENCIL_SLOT ] != null && stacks[ OTHER_DYE_SLOT ] != null )
     	{
-    		int stencilType = ( ( StencilItem )( stacks[ STENCIL_SLOT ].getItem() ) ).getStencilType();
-        	int stencilColor = getDyeColor( stacks[ OTHER_DYE_SLOT ] );
-        	
-        	data |= ( stencilType << 4 ) & 0x0F0;
-        	data |= ( stencilColor << 8 ) & 0xF00;
+    		byte stencilType = ( ( StencilItem )( stacks[ STENCIL_SLOT ].getItem() ) ).getStencilType();
+        	byte stencilColor = getDyeColor( stacks[ OTHER_DYE_SLOT ] );
+
+        	data.stencilType = stencilType;
+        	data.stencilColor = stencilColor;
     	}
     	
-    	ItemStack result = new ItemStack( id, 1, data );
+    	ItemStack result = new ItemStack( id, 1, data.getAsData() );
     	return result;
     }
     
-    private int getDyeColor( ItemStack stack )
+    private byte getDyeColor( ItemStack stack )
     {
     	if ( stack == null )
     	{
@@ -413,7 +414,7 @@ public class KilnTileEntity extends TileEntity implements IInventory {
         	
         	if ( thisColor && vanillaDye != null )
         	{
-        		return vanillaDye.getItemDamage();
+        		return ( byte ) vanillaDye.getItemDamage();
         	}
         }
         

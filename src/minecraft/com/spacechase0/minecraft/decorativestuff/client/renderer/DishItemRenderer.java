@@ -1,14 +1,22 @@
 package com.spacechase0.minecraft.decorativestuff.client.renderer;
 
-import com.spacechase0.minecraft.decorativestuff.client.model.PlateModel;
+import com.spacechase0.minecraft.decorativestuff.client.model.DishModel;
+import com.spacechase0.minecraft.decorativestuff.dish.data.DishData;
+import com.spacechase0.minecraft.decorativestuff.item.DishItem;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.RenderEngine;
 import net.minecraftforge.client.IItemRenderer;
 import org.lwjgl.opengl.GL11;
 
-public class PlateItemRenderer implements IItemRenderer, TextureBinder
+public class DishItemRenderer implements IItemRenderer, ITextureBinder
 {
+	public DishItemRenderer( DishModel theModel )
+	{
+		dish = theModel;
+	}
+	
 	@Override
 	public boolean handleRenderType( ItemStack item, ItemRenderType type )
 	{
@@ -22,17 +30,13 @@ public class PlateItemRenderer implements IItemRenderer, TextureBinder
 	}
 
 	@Override
-	public void renderItem( ItemRenderType type, ItemStack item, Object... data )
+	public void renderItem( ItemRenderType type, ItemStack stack, Object... data )
 	{
-		if ( plate == null )
+		Item itemBase = stack.getItem();
+		if ( !( itemBase instanceof DishItem ) )
 		{
-			plate = new PlateModel();
+			return;
 		}
-		
-		int itemData = item.getItemDamage();
-		int mainCol = ( itemData >> 0 ) & 0xF;
-		int stencilType = ( itemData >> 4 ) & 0xF;
-		int stencilColor = ( itemData >> 8 ) & 0xF;
 		
 		if ( data[ 0 ] instanceof RenderBlocks )
 		{
@@ -61,15 +65,27 @@ public class PlateItemRenderer implements IItemRenderer, TextureBinder
 			//GL11.glRotatef( 135.f, 0.f, 0.f, 1.f );
 			GL11.glTranslatef( 0.f, -1.25f, 0.f );
 		}
-        bindTexture( "/mods/decorativeStuff/textures/blocks/porcelainBlock.png" );
-		plate.renderAll( this, mainCol, stencilType, stencilColor );
+		
+		DishItem item = ( DishItem ) itemBase;
+		int itemData = stack.getItemDamage();
+		DishData dishData = item.mat.getDishData( itemData );
+
+		dishData.bindTexture( item.block.getDishType().Type, this );
+		dish.renderAll( this, dishData );
 	}
 	
+	@Override
 	public void bindTexture( String tex )
 	{
 		re.bindTexture( tex );
 	}
 	
+	@Override
+	public void bindTexture( int id )
+	{
+        GL11.glBindTexture( GL11.GL_TEXTURE_2D, id );
+	}
+	
 	private RenderEngine re;
-	private PlateModel plate;
+	protected DishModel dish;
 }

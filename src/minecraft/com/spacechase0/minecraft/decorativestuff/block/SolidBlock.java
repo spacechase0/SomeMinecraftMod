@@ -1,8 +1,6 @@
 package com.spacechase0.minecraft.decorativestuff.block;
 
 import com.spacechase0.minecraft.decorativestuff.DecorativeStuff;
-import com.spacechase0.minecraft.decorativestuff.tileentity.PlateTileEntity;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;

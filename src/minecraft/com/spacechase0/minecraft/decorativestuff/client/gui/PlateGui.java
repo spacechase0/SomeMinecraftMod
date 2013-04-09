@@ -1,8 +1,7 @@
 package com.spacechase0.minecraft.decorativestuff.client.gui;
 
-import com.spacechase0.minecraft.decorativestuff.inventory.PlateContainer;
-import com.spacechase0.minecraft.decorativestuff.tileentity.PlateTileEntity;
-
+import com.spacechase0.minecraft.decorativestuff.inventory.DishContainer;
+import com.spacechase0.minecraft.decorativestuff.tileentity.DishTileEntity;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.util.StatCollector;
@@ -10,9 +9,9 @@ import org.lwjgl.opengl.GL11;
 
 public class PlateGui extends GuiContainer
 {
-	public PlateGui( InventoryPlayer player, PlateTileEntity plate )
+	public PlateGui( InventoryPlayer player, DishTileEntity plate )
 	{
-        super( new PlateContainer( player, plate ) );
+        super( new DishContainer( player, plate ) );
 	}
 	
 	@Override

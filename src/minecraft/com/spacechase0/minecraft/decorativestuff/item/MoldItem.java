@@ -2,7 +2,7 @@ package com.spacechase0.minecraft.decorativestuff.item;
 
 public class MoldItem extends SimpleItem
 {
-	public MoldItem( int id, String name, int theOutput )
+	public MoldItem( int id, String name, int[] theOutput )
 	{
 		super( id, name + "Mold" );
 		output = theOutput;
@@ -11,10 +11,10 @@ public class MoldItem extends SimpleItem
 		setMaxDamage( 4 );
 	}
 	
-	public int getOutputId()
+	public int getOutputId( byte matType )
 	{
-		return output;
+		return output[ matType ];
 	}
 	
-	private final int output;
+	private final int output[];
 }

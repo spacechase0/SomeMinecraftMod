@@ -2,7 +2,6 @@ package com.spacechase0.minecraft.decorativestuff.block;
 
 import com.spacechase0.minecraft.decorativestuff.DecorativeStuff;
 import com.spacechase0.minecraft.decorativestuff.tileentity.KilnTileEntity;
-import com.spacechase0.minecraft.decorativestuff.tileentity.PlateTileEntity;
 import java.lang.reflect.Field;
 import java.util.Random;
 import net.minecraft.block.Block;
