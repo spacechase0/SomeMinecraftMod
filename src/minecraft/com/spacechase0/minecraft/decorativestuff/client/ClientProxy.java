@@ -149,7 +149,7 @@ public class ClientProxy extends CommonProxy
 					}
 				}
 			}
-			ImageIO.write( image, "PNG", new File( new File( str ).getName() ) );
+			//ImageIO.write( image, "PNG", new File( new File( str ).getName() ) );
 			
 			int id = re.allocateAndSetupTexture( image );
 			textures.put( str, id );

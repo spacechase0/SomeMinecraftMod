@@ -4,6 +4,8 @@ import com.spacechase0.minecraft.decorativestuff.dish.data.WoodData;
 import com.spacechase0.minecraft.decorativestuff.dish.material.DishMaterial;
 import com.spacechase0.minecraft.decorativestuff.dish.material.WoodMaterial;
 import com.spacechase0.minecraft.decorativestuff.item.MoldItem;
+import java.util.ArrayList;
+import java.util.Iterator;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemStack;
@@ -16,7 +18,7 @@ public class WoodDishRecipes implements IRecipe
 	@Override
 	public boolean matches( InventoryCrafting inv, World world )
 	{
-		ItemStack axe = null;
+		//ItemStack axe = null;
 		ItemStack mold = null;
 		ItemStack wood = null;
 		int woodCount = 0;
@@ -28,15 +30,17 @@ public class WoodDishRecipes implements IRecipe
 				continue;
 			}
 			
+			/*
 			if ( stack.getItem() instanceof ItemAxe && axe == null )
 			{
 				axe = stack;
 			}
+			//*/
 			else if ( stack.getItem() instanceof MoldItem && mold == null )
 			{
 				mold = stack;
 			}
-			else if ( containsMatch( ( ItemStack[] ) OreDictionary.getOres( "plankWood" ).toArray(), stack ) )
+			else if ( isWoodenPlanks( stack ) )
 			{
 				if ( wood == null || wood.isItemEqual( stack ) )
 				{
@@ -45,22 +49,24 @@ public class WoodDishRecipes implements IRecipe
 				}
 				else
 				{
+					System.out.println(woodCount);
 					return false;
 				}
 			}
 			else
 			{
+				System.out.println("bad item " + stack.toString() );
 				return false;
 			}
 		}
 		
-		return ( axe != null && mold != null && wood != null && ( woodCount == 3 ) );
+		return ( /*axe != null &&*/ mold != null && wood != null && ( woodCount == 3 ) );
 	}
 
 	@Override
 	public ItemStack getCraftingResult( InventoryCrafting inv )
 	{
-		ItemStack axe = null;
+		//ItemStack axe = null;
 		ItemStack mold = null;
 		ItemStack wood = null;
 		int woodCount = 0;
@@ -72,15 +78,17 @@ public class WoodDishRecipes implements IRecipe
 				continue;
 			}
 			
+			/*
 			if ( stack.getItem() instanceof ItemAxe && axe == null )
 			{
 				axe = stack;
 			}
+			//*/
 			else if ( stack.getItem() instanceof MoldItem && mold == null )
 			{
 				mold = stack;
 			}
-			else if ( containsMatch( ( ItemStack[] ) OreDictionary.getOres( "plankWood" ).toArray(), stack ) )
+			else if ( isWoodenPlanks( stack ) )
 			{
 				if ( wood == null || wood.isItemEqual( stack ) )
 				{
@@ -96,18 +104,6 @@ public class WoodDishRecipes implements IRecipe
 			{
 				return null;
 			}
-		}
-		
-		axe.setItemDamage( axe.getItemDamage() + 1 );
-		if ( axe.getItemDamage() > axe.getMaxDamage() )
-		{
-			axe.stackSize = 0;
-		}
-		
-		mold.setItemDamage( mold.getItemDamage() + 1 );
-		if ( mold.getItemDamage() > mold.getMaxDamage() )
-		{
-			mold.stackSize = 0;
 		}
 		
 		int data = 0;
@@ -131,20 +127,25 @@ public class WoodDishRecipes implements IRecipe
 		return null;
 	}
 	
-	// Copied from OreDictionary
-	// I wonder why it wasn't public...
-    private static boolean containsMatch( ItemStack[] inputs, ItemStack... targets )
+    private static boolean isWoodenPlanks( ItemStack target )
     {
-        for ( ItemStack input : inputs )
-        {
-            for ( ItemStack target : targets )
-            {
-                if ( OreDictionary.itemMatches( target, input, true ) )
-                {
-                    return true;
-                }
-            }
-        }
-        return false;
+    	ArrayList< ItemStack > stacks = OreDictionary.getOres( "plankWood" );
+    	
+    	Iterator< ItemStack > it = stacks.iterator();
+    	while ( it.hasNext() )
+    	{
+    		ItemStack stack = it.next();
+    		
+    		if ( stack.getItemDamage() == OreDictionary.WILDCARD_VALUE )
+    		{
+    			return ( stack.itemID == target.itemID );
+    		}
+    		else
+    		{
+    			return ( stack.itemID == target.itemID && stack.getItemDamage() == target.getItemDamage() );
+    		}
+    	}
+    	
+    	return false;
     }
 }
