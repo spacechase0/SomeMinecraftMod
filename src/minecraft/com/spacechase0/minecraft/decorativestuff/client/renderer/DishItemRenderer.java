@@ -72,6 +72,7 @@ public class DishItemRenderer implements IItemRenderer, ITextureBinder
 
 		dishData.bindTexture( item.block.getDishType().Type, this );
 		dish.renderAll( this, dishData );
+		re.resetBoundTexture();
 	}
 	
 	@Override

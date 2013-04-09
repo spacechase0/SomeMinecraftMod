@@ -30,7 +30,9 @@ public class DishTileEntityRenderer extends TileEntitySpecialRenderer implements
 
         dish.getDishData().bindTexture( dish.getDishType().Type, this );
         models.get( dish.getDishType().id ).renderAll( this, dish.getDishData() );
+        
         GL11.glColor4f( 1.0F, 1.0F, 1.0F, 1.0F );
+        tileEntityRenderer.renderEngine.resetBoundTexture();
         
         ItemStack stack = dish.getStackInSlot( 0 );
         contentsRenderers.get( dish.getDishType().id ).renderContents( this, stack );
